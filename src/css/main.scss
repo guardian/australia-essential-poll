@@ -3,3 +3,36 @@
 @import "mq";
 @import "general";
 @import "share";
+@import "grid";
+
+.interactive-container {
+	#header {
+		min-height: 300px;
+		position:relative;
+
+		h1 {
+			font-weight:bold;
+			font-size:3rem;
+		}
+
+		h2 {
+			margin-top:100px;	
+			color:#767676;
+			font-size:1.5rem;
+		}
+
+		#backgroundHeaderGraph {
+			position:absolute;
+		}
+
+		#headerTextContainer {
+			position:absolute;
+			width:60%;
+		}
+	}
+
+	.line {
+		fill: none;
+		stroke-width: 3px;
+	}
+}
