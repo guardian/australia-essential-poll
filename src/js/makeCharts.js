@@ -8,14 +8,16 @@ export default function makeCharts(debug, chartData) {
 
 		// Shared vars and functions
 
-		var width = document.querySelector("#twoPartyPreferredContainer").getBoundingClientRect().width;
-        var height = width*0.6;
+		var getW = document.querySelector("#twoPartyPreferredContainer").getBoundingClientRect().width;
+        var getH = getW*0.6;
         var miniPadding = 25;
-        var margin = {top: 20, right: 20, bottom: (height*0.25), left: 40},
-	        margin2 =  {top: (height*0.75 + miniPadding), right: 10, bottom: 20, left: 40},
-	        width = width - margin.left - margin.right,
-	        height = height - margin.top - margin.bottom,
-	        height2 = height - margin2.top - margin2.bottom;
+        var margin = {top: 20, right: 20, bottom: (getH*0.25), left: 40},
+	        margin2 =  {top: (getH*0.75 + miniPadding), right: 10, bottom: 20, left: 40},
+	        width = getW - margin.left - margin.right,
+	        height = getH - margin.top - margin.bottom,
+	        height2 = getH - margin2.top - margin2.bottom;
+
+	    console.log("height",height,"width",width,"margin",margin, "margin2", margin2, "height2", height2);    
 
 	    var parseDate = d3.timeParse("%-d/%-m/%Y");    
 
@@ -82,7 +84,9 @@ export default function makeCharts(debug, chartData) {
 				y2 = d3.scaleLinear().range([height2, 0]);
 	    
 		    var twoppFilter = votingIntention.filter(function(d){ return (d.date > startDate && d.date <= endDate) });
+
 		    console.log(twoppFilter);
+
 	        var xAxis = d3.axisBottom()
 				.scale(x);
 
@@ -235,7 +239,31 @@ export default function makeCharts(debug, chartData) {
 				lineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alp2PP) + ")");
 				lineTip.select("text").text(d.alp2PP);
 
-			} //End mousemove    	
+			} //End mousemove   
+
+
+			context.append("line")
+				.attr("class", "trendline")
+				.attr("x1", function(d) { return x(votingIntention[0].date); })
+				.attr("y1", function(d) { return y(50); })
+				.attr("x2", function(d) { return x(endDate); })
+				.attr("y2", function(d) { return y(50); })
+				.style("stroke-dasharray", ("3, 3"))
+				.attr("stroke", "#808080")
+				.attr("stroke-width", 1);       
+
+			context.append("g")
+				.attr("class", "x axis")
+				.attr("transform", "translate(0," + height2 + ")")
+				.call(xAxis2);
+
+			context.append("path")
+				.datum(votingIntention)
+				.attr("class", "line alpNavLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#005689")
+				.attr("d", alpNavLine);  
+
 
 	    } //End make2pp
 
