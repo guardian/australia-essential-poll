@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 
-export default function makeCharts(debug, chartData) {
+export default function makeTwopp(debug, chartData) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 		var preferredPM = chartData.sheets.preferredPM;
@@ -8,7 +8,7 @@ export default function makeCharts(debug, chartData) {
 
 		// Shared vars and functions
 
-		var getW = document.querySelector("#twoPartyPreferredContainer").getBoundingClientRect().width;
+		var getW = document.querySelector("#primaryVotingContainer").getBoundingClientRect().width;
         var getH = getW*0.6;
         var miniPadding = 25;
         var margin = {top: 20, right: 20, bottom: (getH*0.25), left: 40},
@@ -21,42 +21,21 @@ export default function makeCharts(debug, chartData) {
 
 	    var parseDate = d3.timeParse("%-d/%-m/%Y");    
 
+	    var extentY = [];
+
 	    votingIntention.forEach(function (d,i) {
 
-	    	d['ALP'] = +d['ALP'];
-	    	d['LNP'] = +d['LNP'];
-	    	d['Greens'] = +d['Greens'];
+	    	d['alp'] = +d['alp'];
+	    	d['lnp'] = +d['lnp'];
+	    	d['greens'] = +d['greens'];
 	    	d['ON'] = +d['ON'];
-	    	d['ALP-2PP'] = +d['ALP-2PP'];
-	    	d['LNP-2PP'] = +d['LNP-2PP'];
-	    	d['date'] = parseDate(d['date']);
-	    
-	    });
-
-	    preferredPM.forEach(function (d,i) {
-
-	    	d['ALP-DK'] = +d['ALP-DK'];
-	    	d['ALP-Favourable'] = +d['ALP-Favourable'];
-	    	d['ALP-Preferred'] = +d['ALP-Preferred'];
-	    	d['ALP-Unfavourable'] = +d['ALP-Unfavourable'];
-	    	d['DK-Preferred'] = +d['DK-Preferred'];
-	    	d['LNP-DK'] = +d['LNP-DK'];
-	    	d['LNP-Favourable'] = +d['LNP-Favourable'];
-	    	d['LNP-Preferred'] = +d['LNP-Preferred'];
-	    	d['LNP-Unfavourable'] = +d['LNP-Unfavourable'];
 	    	d['date'] = parseDate(d['date']);
 
+	    	extentY.push(+d['alp']);
+	    	extentY.push(+d['lnp']);
+	    	extentY.push(+d['greens']);
+	    	extentY.push(+d['ON']);
 	    });
-
-	    preferredPM.sort(function (a, b) {
-			if (a.date > b.date) {
-				return 1;
-			}
-			if (a.date < b.date) {
-				return -1;
-			}
-			return 0;
-		});
 
 	    votingIntention.sort(function (a, b) {
 			if (a.date > b.date) {
@@ -81,10 +60,6 @@ export default function makeCharts(debug, chartData) {
 				y = d3.scaleLinear().range([height, 0]),
 				x2 = d3.scaleTime().range([0, width]),
 				y2 = d3.scaleLinear().range([height2, 0]);
-	    
-		    // var twoppFilter = votingIntention.filter(function(d){ return (d.date > startDate && d.date <= endDate) });
-
-		    // console.log(twoppFilter);
 
 	        var xAxis = d3.axisBottom()
 				.scale(x);
@@ -129,10 +104,9 @@ export default function makeCharts(debug, chartData) {
 				.attr("class", "context")
 				.attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-			x.domain([startDate, padDate]);
-
-			y.domain(d3.extent(votingIntention, function(d) { return d.alp2PP; }));
-			x2.domain([d3.min(votingIntention, function(d) { return d.date; }), padDate]);
+			x.domain([startDate, endDate]);
+			y.domain(d3.extent(extentY));
+			x2.domain([d3.min(votingIntention, function(d) { return d.date; }), endDate]);
 			y2.domain(y.domain());
 
 			focus.append("g")
@@ -181,23 +155,23 @@ export default function makeCharts(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("d", lnpLine);  	  	    						   
 
-			var lineTip = focus.append("g")
+			var alpLineTip = focus.append("g")
 				.attr("class", "lineTip")
 				.style("display", "none");
 
-			lineTip.append("rect")
+			alpLineTip.append("rect")
 				.attr("width", 40)
 				.attr("height",20)
 				.attr("fill", "#FFF")
 				.attr("y", "-10")
 				.attr("x", "6")      
 
-			lineTip.append("circle")
+			alpLineTip.append("circle")
 				.attr("r", 4.5)
 				.style("pointer-events","none")
-				.style("fill", "#00456e");
+				.style("fill", "#b51800");
 
-			lineTip.append("text")
+			alpLineTip.append("text")
 				.attr("x", 9)
 				.attr("dy", ".35em");
 
@@ -216,23 +190,23 @@ export default function makeCharts(debug, chartData) {
 				}
 
 				if (x(d.date) > width - 50) {
-					lineTip.select("rect")
-					.attr("x", "-46");
+					alpLineTip.select("rect")
+						.attr("x", "-46");
 
-					lineTip.select("text")
-					.attr("x", "-43")  
+					alpLineTip.select("text")
+						.attr("x", "-43")  
 				}
 
 				else {
-					lineTip.select("rect")
-					.attr("x", "6")
+					alpLineTip.select("rect")
+						.attr("x", "6")
 
-					lineTip.select("text")
-					.attr("x", "9")     
+					alpLineTip.select("text")
+						.attr("x", "9")     
 				}
    
-				lineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alp2PP) + ")");
-				lineTip.select("text").text(d.alp2PP);
+				alpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alp2PP) + ")");
+				alpLineTip.select("text").text(d.alp2PP);
 
 			} //End mousemove   
 
@@ -256,45 +230,24 @@ export default function makeCharts(debug, chartData) {
 				.datum(votingIntention)
 				.attr("class", "line alpNavLine")
 				.attr("stroke-width", 1)
-				.attr("stroke", "#005689")
+				.attr("stroke", "#b51800")
 				.attr("d", alpNavLine);  
+
+			context.append("path")
+				.datum(votingIntention)
+				.attr("class", "line alpNavLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#005689")
+				.attr("d", lnpNavLine);  	
+
 
 			var brush = d3.brushX()
 				.on("brush end", brushed);	
 
-
-			// brush.extent([startDate, padDate]);
-
-   //  		var brushWidth = x2(brush.extent()[1]) - x2(brush.extent()[0]);	
-
-			// var slider = context.append("g")
-			
-			// var leftArrow = slider.append("svg:image")
-		 //       .attr('y', (height2/2) - 18)
-		 //       .attr('width', 17)
-		 //       .attr('height', 36)
-		 //       .style("opacity",0.7)
-		 //       .attr("xlink:href","@@assetPath@@/assets/imgs/chevron-left.png")
-
-		 //    var rightArrow = slider.append("svg:image")
-		 //       .attr('y', (height2/2) - 18)
-		 //       .attr('width', 17)
-		 //       .attr('height', 36)
-		 //       .style("opacity",0.7)
-		 //       .attr("xlink:href","@@assetPath@@/assets/imgs/chevron-right.png")
-
-			// slider
-			// 	.attr("class", "x brush")
-			// 	.call(brush);
-
-			// slider.selectAll("rect")
-   //      		.attr("height", height2)
-   //      		.attr("width", brushWidth)
-
    			context.append("g")
 				.attr("class", "brush")
 				.call(brush)
-				.call(brush.move, [startDate, padDate].map(x2));
+				.call(brush.move, [startDate, endDate].map(x2));
 
 
         	function brushed() {
@@ -302,7 +255,7 @@ export default function makeCharts(debug, chartData) {
 				x.domain(s.map(x2.invert, x2));
 				focus.select(".alpLine").attr("d", alpLine);
 				focus.select(".lnpLine").attr("d", lnpLine);
-				focus.select("x.axis").call(xAxis);
+				focus.select(".x.axis").call(xAxis);
 			}	
 
 

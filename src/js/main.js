@@ -4,7 +4,7 @@ import share from './lib/share'
 import parseURL from './lib/parseURL'
 import fetchJSON from './lib/fetch'
 import makeHeader from './makeHeader'
-import makeCharts from './makeCharts'
+import makeTwopp from './makeTwopp'
 import * as d3 from 'd3'
 
 
@@ -51,7 +51,7 @@ export function init(el, context, config, mediator) {
             crossOrigin: true,
             success: function(resp) { 
                 (debug) ? console.log(resp) : null;
-                makeCharts(debug,resp)
+                makeTwopp(debug,resp)
             }
         })
 
