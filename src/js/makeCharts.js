@@ -74,7 +74,6 @@ export default function makeCharts(debug, chartData) {
 	    function make2PP() {
 
 	    	var endDate = votingIntention[votingIntention.length -1].date;
-	    	console.log(endDate);
 			var startDate = d3.timeDay.offset(endDate, -365);
 			var padDate = d3.timeDay.offset(endDate, +2);
 	    	
@@ -83,9 +82,9 @@ export default function makeCharts(debug, chartData) {
 				x2 = d3.scaleTime().range([0, width]),
 				y2 = d3.scaleLinear().range([height2, 0]);
 	    
-		    var twoppFilter = votingIntention.filter(function(d){ return (d.date > startDate && d.date <= endDate) });
+		    // var twoppFilter = votingIntention.filter(function(d){ return (d.date > startDate && d.date <= endDate) });
 
-		    console.log(twoppFilter);
+		    // console.log(twoppFilter);
 
 	        var xAxis = d3.axisBottom()
 				.scale(x);
@@ -95,10 +94,6 @@ export default function makeCharts(debug, chartData) {
 
 		    var yAxis = d3.axisLeft()
 				.scale(y);
-
-			// var brush = d3.brushX()
-			// 	.on("brush", brushMid)
-			// 	.on("brushend", brushEnd);
 
 			var alpNavLine = d3.line()
 				.x(function(d) { return x2(d.date); })
@@ -171,7 +166,7 @@ export default function makeCharts(debug, chartData) {
 				.on("mousemove", mousemove);
 
 			focus.append("path")
-				.datum(twoppFilter)
+				.datum(votingIntention)
 				.attr("class", "line alpLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#b51800")
@@ -179,7 +174,7 @@ export default function makeCharts(debug, chartData) {
 				.attr("d", alpLine);
 
 			focus.append("path")
-				.datum(twoppFilter)
+				.datum(votingIntention)
 				.attr("class", "line lnpLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#005689")
@@ -210,9 +205,9 @@ export default function makeCharts(debug, chartData) {
 
 			function mousemove() {
 				var x0 = x.invert(d3.mouse(this)[0]);
-				var i = bisectDate(twoppFilter, x0, 1);
-				var d0 = twoppFilter[i - 1];
-				var d1 = twoppFilter[i];
+				var i = bisectDate(votingIntention, x0, 1);
+				var d0 = votingIntention[i - 1];
+				var d1 = votingIntention[i];
 				if (d1 != undefined) {
 					var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 				}
@@ -263,6 +258,52 @@ export default function makeCharts(debug, chartData) {
 				.attr("stroke-width", 1)
 				.attr("stroke", "#005689")
 				.attr("d", alpNavLine);  
+
+			var brush = d3.brushX()
+				.on("brush end", brushed);	
+
+
+			// brush.extent([startDate, padDate]);
+
+   //  		var brushWidth = x2(brush.extent()[1]) - x2(brush.extent()[0]);	
+
+			// var slider = context.append("g")
+			
+			// var leftArrow = slider.append("svg:image")
+		 //       .attr('y', (height2/2) - 18)
+		 //       .attr('width', 17)
+		 //       .attr('height', 36)
+		 //       .style("opacity",0.7)
+		 //       .attr("xlink:href","@@assetPath@@/assets/imgs/chevron-left.png")
+
+		 //    var rightArrow = slider.append("svg:image")
+		 //       .attr('y', (height2/2) - 18)
+		 //       .attr('width', 17)
+		 //       .attr('height', 36)
+		 //       .style("opacity",0.7)
+		 //       .attr("xlink:href","@@assetPath@@/assets/imgs/chevron-right.png")
+
+			// slider
+			// 	.attr("class", "x brush")
+			// 	.call(brush);
+
+			// slider.selectAll("rect")
+   //      		.attr("height", height2)
+   //      		.attr("width", brushWidth)
+
+   			context.append("g")
+				.attr("class", "brush")
+				.call(brush)
+				.call(brush.move, [startDate, padDate].map(x2));
+
+
+        	function brushed() {
+				var s = d3.event.selection || x2.range();
+				x.domain(s.map(x2.invert, x2));
+				focus.select(".alpLine").attr("d", alpLine);
+				focus.select(".lnpLine").attr("d", lnpLine);
+				focus.select("x.axis").call(xAxis);
+			}	
 
 
 	    } //End make2pp
