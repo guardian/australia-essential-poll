@@ -5,9 +5,8 @@ import parseURL from './lib/parseURL'
 import fetchJSON from './lib/fetch'
 import makeHeader from './makeHeader'
 import makeTwopp from './makeTwopp'
+import makeVoting from './makeVoting'
 import * as d3 from 'd3'
-
-
 
 var debug = true;
 var shareFn = share('Interactive title', 'http://gu.com/p/URL', '#Interactive');
@@ -51,7 +50,8 @@ export function init(el, context, config, mediator) {
             crossOrigin: true,
             success: function(resp) { 
                 (debug) ? console.log(resp) : null;
-                makeTwopp(debug,resp)
+                makeTwopp(debug,resp);
+                makeVoting(debug,resp);
             }
         })
 

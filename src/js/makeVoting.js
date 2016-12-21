@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 
-export default function makeTwopp(debug, chartData) {
+export default function makeVoting(debug, chartData) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 		var preferredPM = chartData.sheets.preferredPM;
@@ -29,12 +29,12 @@ export default function makeTwopp(debug, chartData) {
 	    	d['lnp'] = +d['lnp'];
 	    	d['greens'] = +d['greens'];
 	    	d['ON'] = +d['ON'];
-	    	d['date'] = parseDate(d['date']);
 
 	    	extentY.push(+d['alp']);
 	    	extentY.push(+d['lnp']);
 	    	extentY.push(+d['greens']);
 	    	extentY.push(+d['ON']);
+
 	    });
 
 	    votingIntention.sort(function (a, b) {
@@ -50,7 +50,9 @@ export default function makeTwopp(debug, chartData) {
 	    
 	    // Two party preferred chart
 
-	    function make2PP() {
+	    function makeChart() {
+
+	    	console.log(votingIntention);
 
 	    	var endDate = votingIntention[votingIntention.length -1].date;
 			var startDate = d3.timeDay.offset(endDate, -365);
@@ -72,21 +74,37 @@ export default function makeTwopp(debug, chartData) {
 
 			var alpNavLine = d3.line()
 				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.alp2PP); });
+				.y(function(d) { return y2(d.alp); });
 
 			var alpLine = d3.line()
 				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.alp2PP); });
+				.y(function(d) { return y(d.alp); });
 
 			var lnpNavLine = d3.line()
 				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.lnp2PP); });
+				.y(function(d) { return y2(d.lnp); });
 
 			var lnpLine = d3.line()
 				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.lnp2PP); });	
+				.y(function(d) { return y(d.lnp); });
 
-			var svg = d3.select("#twoPartyPreferredContainer").append("svg")
+			var greensNavLine = d3.line()
+				.x(function(d) { return x2(d.date); })
+				.y(function(d) { return y2(d.greens); });
+
+			var greensLine = d3.line()
+				.x(function(d) { return x(d.date); })
+				.y(function(d) { return y(d.greens); });
+
+			var onNavLine = d3.line()
+				.x(function(d) { return x2(d.date); })
+				.y(function(d) { return y2(d.ON); });
+
+			var onLine = d3.line()
+				.x(function(d) { return x(d.date); })
+				.y(function(d) { return y(d.ON); });		
+
+			var svg = d3.select("#primaryVotingContainer").append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom);
 
@@ -153,7 +171,23 @@ export default function makeTwopp(debug, chartData) {
 				.attr("stroke-width", 1)
 				.attr("stroke", "#005689")
 				.attr("clip-path", "url(#clip)")
-				.attr("d", lnpLine);  	  	    						   
+				.attr("d", lnpLine);
+
+			focus.append("path")
+				.datum(votingIntention)
+				.attr("class", "line greensLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#b51800")
+				.attr("clip-path", "url(#clip)")
+				.attr("d", greensLine);
+
+			focus.append("path")
+				.datum(votingIntention)
+				.attr("class", "line onLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#005689")
+				.attr("clip-path", "url(#clip)")
+				.attr("d", onLine);  	
 
 			var alpLineTip = focus.append("g")
 				.attr("class", "lineTip")
@@ -240,6 +274,19 @@ export default function makeTwopp(debug, chartData) {
 				.attr("stroke", "#005689")
 				.attr("d", lnpNavLine);  	
 
+			context.append("path")
+				.datum(votingIntention)
+				.attr("class", "line alpNavLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#b51800")
+				.attr("d", greensNavLine);  
+
+			context.append("path")
+				.datum(votingIntention)
+				.attr("class", "line alpNavLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#005689")
+				.attr("d", onNavLine); 	
 
 			var brush = d3.brushX()
 				.on("brush end", brushed);	
@@ -255,12 +302,14 @@ export default function makeTwopp(debug, chartData) {
 				x.domain(s.map(x2.invert, x2));
 				focus.select(".alpLine").attr("d", alpLine);
 				focus.select(".lnpLine").attr("d", lnpLine);
+				focus.select(".lnpLine").attr("d", greensLine);
+				focus.select(".lnpLine").attr("d", onLine);
 				focus.select(".x.axis").call(xAxis);
 			}	
 
 
 	    } //End make2pp
 
-	    make2PP();    
+	    makeChart();    
             
     }

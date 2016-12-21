@@ -47,7 +47,7 @@ export default function makeTwopp(debug, chartData) {
 	    
 	    // Two party preferred chart
 
-	    function make2PP() {
+	    function makeChart() {
 
 	    	var endDate = votingIntention[votingIntention.length -1].date;
 			var startDate = d3.timeDay.offset(endDate, -365);
@@ -258,6 +258,6 @@ export default function makeTwopp(debug, chartData) {
 
 	    } //End make2pp
 
-	    make2PP();    
+	    makeChart();    
             
     }
