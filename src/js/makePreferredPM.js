@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 export default function makeTwopp(debug, chartData) {
 
 		(debug) ? console.log("chartData",chartData) : null;
-
+		var preferredPM = chartData.sheets.preferredPM;
 		var votingIntention = chartData.sheets.votingIntention;
 
 		// Shared vars and functions
@@ -126,15 +126,15 @@ export default function makeTwopp(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("stroke-width", 1);   
 
-			// focus.append("rect")
-			// 	.attr("class", "mouseOverlay")
-			// 	.attr("opacity", 0)
-			// 	.attr("width", width)
-			// 	.attr("height", height)
-			// 	.on("mouseover", function() { lineTip.style("display", null); })
-			// 	.on("mouseout", function() { lineTip.style("display", "none"); })
-			// 	.on("touchstart", function() { lineTip.style("display", null); })
-			// 	.on("mousemove", mousemove);
+			focus.append("rect")
+				.attr("class", "mouseOverlay")
+				.attr("opacity", 0)
+				.attr("width", width)
+				.attr("height", height)
+				.on("mouseover", function() { lineTip.style("display", null); })
+				.on("mouseout", function() { lineTip.style("display", "none"); })
+				.on("touchstart", function() { lineTip.style("display", null); })
+				.on("mousemove", mousemove);
 
 			focus.append("path")
 				.datum(votingIntention)
@@ -152,25 +152,25 @@ export default function makeTwopp(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("d", lnpLine);  	  	    						   
 
-			// var alpLineTip = focus.append("g")
-			// 	.attr("class", "lineTip")
-			// 	.style("display", "none");
+			var alpLineTip = focus.append("g")
+				.attr("class", "lineTip")
+				.style("display", "none");
 
-			// alpLineTip.append("rect")
-			// 	.attr("width", 40)
-			// 	.attr("height",20)
-			// 	.attr("fill", "#FFF")
-			// 	.attr("y", "-10")
-			// 	.attr("x", "6")      
+			alpLineTip.append("rect")
+				.attr("width", 40)
+				.attr("height",20)
+				.attr("fill", "#FFF")
+				.attr("y", "-10")
+				.attr("x", "6")      
 
-			// alpLineTip.append("circle")
-			// 	.attr("r", 4.5)
-			// 	.style("pointer-events","none")
-			// 	.style("fill", "#b51800");
+			alpLineTip.append("circle")
+				.attr("r", 4.5)
+				.style("pointer-events","none")
+				.style("fill", "#b51800");
 
-			// alpLineTip.append("text")
-			// 	.attr("x", 9)
-			// 	.attr("dy", ".35em");
+			alpLineTip.append("text")
+				.attr("x", 9)
+				.attr("dy", ".35em");
 
 			var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 

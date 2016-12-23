@@ -6,6 +6,7 @@ import fetchJSON from './lib/fetch'
 import makeHeader from './makeHeader'
 import makeTwopp from './makeTwopp'
 import makeVoting from './makeVoting'
+import makeApproval from './makeApproval'
 import * as d3 from 'd3'
 
 var debug = true;
@@ -52,6 +53,7 @@ export function init(el, context, config, mediator) {
                 (debug) ? console.log(resp) : null;
                 makeTwopp(debug,resp);
                 makeVoting(debug,resp);
+                makeApproval(debug,resp);
             }
         })
 

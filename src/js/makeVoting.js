@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 export default function makeVoting(debug, chartData) {
 
 		(debug) ? console.log("chartData",chartData) : null;
-		var preferredPM = chartData.sheets.preferredPM;
+
 		var votingIntention = chartData.sheets.votingIntention;
 
 		// Shared vars and functions
@@ -147,15 +147,15 @@ export default function makeVoting(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("stroke-width", 1);   
 
-			focus.append("rect")
-				.attr("class", "mouseOverlay")
-				.attr("opacity", 0)
-				.attr("width", width)
-				.attr("height", height)
-				.on("mouseover", function() { lineTip.style("display", null); })
-				.on("mouseout", function() { lineTip.style("display", "none"); })
-				.on("touchstart", function() { lineTip.style("display", null); })
-				.on("mousemove", mousemove);
+			// focus.append("rect")
+			// 	.attr("class", "mouseOverlay")
+			// 	.attr("opacity", 0)
+			// 	.attr("width", width)
+			// 	.attr("height", height)
+			// 	.on("mouseover", function() { lineTip.style("display", null); })
+			// 	.on("mouseout", function() { lineTip.style("display", "none"); })
+			// 	.on("touchstart", function() { lineTip.style("display", null); })
+			// 	.on("mousemove", mousemove);
 
 			focus.append("path")
 				.datum(votingIntention)
@@ -177,7 +177,7 @@ export default function makeVoting(debug, chartData) {
 				.datum(votingIntention)
 				.attr("class", "line greensLine")
 				.attr("stroke-width", 1)
-				.attr("stroke", "#b51800")
+				.attr("stroke", "#298422")
 				.attr("clip-path", "url(#clip)")
 				.attr("d", greensLine);
 
@@ -185,29 +185,29 @@ export default function makeVoting(debug, chartData) {
 				.datum(votingIntention)
 				.attr("class", "line onLine")
 				.attr("stroke-width", 1)
-				.attr("stroke", "#005689")
+				.attr("stroke", "#ff9b0b")
 				.attr("clip-path", "url(#clip)")
 				.attr("d", onLine);  	
 
-			var alpLineTip = focus.append("g")
-				.attr("class", "lineTip")
-				.style("display", "none");
+			// var alpLineTip = focus.append("g")
+			// 	.attr("class", "lineTip")
+			// 	.style("display", "none");
 
-			alpLineTip.append("rect")
-				.attr("width", 40)
-				.attr("height",20)
-				.attr("fill", "#FFF")
-				.attr("y", "-10")
-				.attr("x", "6")      
+			// alpLineTip.append("rect")
+			// 	.attr("width", 40)
+			// 	.attr("height",20)
+			// 	.attr("fill", "#FFF")
+			// 	.attr("y", "-10")
+			// 	.attr("x", "6")      
 
-			alpLineTip.append("circle")
-				.attr("r", 4.5)
-				.style("pointer-events","none")
-				.style("fill", "#b51800");
+			// alpLineTip.append("circle")
+			// 	.attr("r", 4.5)
+			// 	.style("pointer-events","none")
+			// 	.style("fill", "#b51800");
 
-			alpLineTip.append("text")
-				.attr("x", 9)
-				.attr("dy", ".35em");
+			// alpLineTip.append("text")
+			// 	.attr("x", 9)
+			// 	.attr("dy", ".35em");
 
 			var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
@@ -245,15 +245,15 @@ export default function makeVoting(debug, chartData) {
 			} //End mousemove   
 
 
-			context.append("line")
-				.attr("class", "trendline")
-				.attr("x1", function(d) { return x(votingIntention[0].date); })
-				.attr("y1", function(d) { return y(50); })
-				.attr("x2", function(d) { return x(endDate); })
-				.attr("y2", function(d) { return y(50); })
-				.style("stroke-dasharray", ("3, 3"))
-				.attr("stroke", "#808080")
-				.attr("stroke-width", 1);       
+			// context.append("line")
+			// 	.attr("class", "trendline")
+			// 	.attr("x1", function(d) { return x(votingIntention[0].date); })
+			// 	.attr("y1", function(d) { return y(50); })
+			// 	.attr("x2", function(d) { return x(endDate); })
+			// 	.attr("y2", function(d) { return y(50); })
+			// 	.style("stroke-dasharray", ("3, 3"))
+			// 	.attr("stroke", "#808080")
+			// 	.attr("stroke-width", 1);       
 
 			context.append("g")
 				.attr("class", "x axis")
@@ -269,23 +269,23 @@ export default function makeVoting(debug, chartData) {
 
 			context.append("path")
 				.datum(votingIntention)
-				.attr("class", "line alpNavLine")
+				.attr("class", "line lnpNavLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#005689")
 				.attr("d", lnpNavLine);  	
 
 			context.append("path")
 				.datum(votingIntention)
-				.attr("class", "line alpNavLine")
+				.attr("class", "line greensNavLine")
 				.attr("stroke-width", 1)
-				.attr("stroke", "#b51800")
+				.attr("stroke", "#298422")
 				.attr("d", greensNavLine);  
 
 			context.append("path")
 				.datum(votingIntention)
-				.attr("class", "line alpNavLine")
+				.attr("class", "line onNavLine")
 				.attr("stroke-width", 1)
-				.attr("stroke", "#005689")
+				.attr("stroke", "#ff9b0b")
 				.attr("d", onNavLine); 	
 
 			var brush = d3.brushX()
@@ -302,8 +302,8 @@ export default function makeVoting(debug, chartData) {
 				x.domain(s.map(x2.invert, x2));
 				focus.select(".alpLine").attr("d", alpLine);
 				focus.select(".lnpLine").attr("d", lnpLine);
-				focus.select(".lnpLine").attr("d", greensLine);
-				focus.select(".lnpLine").attr("d", onLine);
+				focus.select(".greensLine").attr("d", greensLine);
+				focus.select(".onLine").attr("d", onLine);
 				focus.select(".x.axis").call(xAxis);
 			}	
 
