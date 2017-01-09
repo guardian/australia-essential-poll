@@ -1,14 +1,14 @@
 import * as d3 from 'd3'
 
-export default function makeTwopp(debug, chartData) {
+export default function makePreferred(debug, chartData) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 		var preferredPM = chartData.sheets.preferredPM;
-		var votingIntention = chartData.sheets.votingIntention;
+
 
 		// Shared vars and functions
 
-		var getW = document.querySelector("#twoPartyPreferredContainer").getBoundingClientRect().width;
+		var getW = document.querySelector("#preferredContainer").getBoundingClientRect().width;
         var getH = getW*0.6;
         var miniPadding = 25;
         var margin = {top: 20, right: 20, bottom: (getH*0.25), left: 40},
@@ -23,18 +23,18 @@ export default function makeTwopp(debug, chartData) {
 
 	    var extentY = [];
 
-	    votingIntention.forEach(function (d,i) {
-
-	    	d['alp2PP'] = +d['alp2PP'];
-	    	d['lnp2PP'] = +d['lnp2PP'];
-	    	d['date'] = parseDate(d['date']);
-
-	    	extentY.push(+d['alp2PP']);
-	    	extentY.push(+d['lnp2PP']);
-	    
+	    preferredPM.forEach(function (d,i) {
+	    	d.alpFavourable = +d.alpFavourable; 
+	    	d.lnpFavourable = +d.lnpFavourable; 
+	    	d.alpDK = +d.alpDK; 
+	    	d.lnpDK = +d.lnpDK; 
+	    	extentY.push(+d.alpFavourable)
+	    	extentY.push(+d.lnpFavourable)
+	    	extentY.push(+d.alpDK)
+	    	extentY.push(+d.lnpDK)
 	    });
 
-	    votingIntention.sort(function (a, b) {
+	    preferredPM.sort(function (a, b) {
 			if (a.date > b.date) {
 				return 1;
 			}
@@ -49,7 +49,7 @@ export default function makeTwopp(debug, chartData) {
 
 	    function makeChart() {
 
-	    	var endDate = votingIntention[votingIntention.length -1].date;
+	    	var endDate = preferredPM[preferredPM.length -1].date;
 			var startDate = d3.timeDay.offset(endDate, -365);
 			var padDate = d3.timeDay.offset(endDate, +2);
 	    	
@@ -69,21 +69,30 @@ export default function makeTwopp(debug, chartData) {
 
 			var alpNavLine = d3.line()
 				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.alp2PP); });
+				.y(function(d) { return y2(d.alpPreferred); });
 
 			var alpLine = d3.line()
 				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.alp2PP); });
+				.y(function(d) { return y(d.alpPreferred); });
 
 			var lnpNavLine = d3.line()
 				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.lnp2PP); });
+				.y(function(d) { return y2(d.lnpPreferred); });
 
 			var lnpLine = d3.line()
 				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.lnp2PP); });	
+				.y(function(d) { return y(d.lnpPreferred); });
 
-			var svg = d3.select("#twoPartyPreferredContainer").append("svg")
+			var dkNavLine = d3.line()
+				.x(function(d) { return x2(d.date); })
+				.y(function(d) { return y2(d.dkPreferred); });
+
+			var dkLine = d3.line()
+				.x(function(d) { return x(d.date); })
+				.y(function(d) { return y(d.dkPreferred); });
+
+
+			var svg = d3.select("#preferredContainer").append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom);
 
@@ -103,7 +112,7 @@ export default function makeTwopp(debug, chartData) {
 
 			x.domain([startDate, endDate]);
 			y.domain(d3.extent(extentY));
-			x2.domain([d3.min(votingIntention, function(d) { return d.date; }), endDate]);
+			x2.domain([d3.min(preferredPM, function(d) { return d.date; }), endDate]);
 			y2.domain(y.domain());
 
 			focus.append("g")
@@ -117,7 +126,7 @@ export default function makeTwopp(debug, chartData) {
 
             focus.append("line")
 				.attr("class", "trendline")
-				.attr("x1", function(d) { return x(votingIntention[0].date); })
+				.attr("x1", function(d) { return x(preferredPM[0].date); })
 				.attr("y1", function(d) { return y(50); })
 				.attr("x2", function(d) { return x(endDate); })
 				.attr("y2", function(d) { return y(50); })
@@ -126,18 +135,18 @@ export default function makeTwopp(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("stroke-width", 1);   
 
-			focus.append("rect")
-				.attr("class", "mouseOverlay")
-				.attr("opacity", 0)
-				.attr("width", width)
-				.attr("height", height)
-				.on("mouseover", function() { lineTip.style("display", null); })
-				.on("mouseout", function() { lineTip.style("display", "none"); })
-				.on("touchstart", function() { lineTip.style("display", null); })
-				.on("mousemove", mousemove);
+			// focus.append("rect")
+			// 	.attr("class", "mouseOverlay")
+			// 	.attr("opacity", 0)
+			// 	.attr("width", width)
+			// 	.attr("height", height)
+			// 	.on("mouseover", function() { lineTip.style("display", null); })
+			// 	.on("mouseout", function() { lineTip.style("display", "none"); })
+			// 	.on("touchstart", function() { lineTip.style("display", null); })
+			// 	.on("mousemove", mousemove);
 
 			focus.append("path")
-				.datum(votingIntention)
+				.datum(preferredPM)
 				.attr("class", "line alpLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#b51800")
@@ -145,40 +154,48 @@ export default function makeTwopp(debug, chartData) {
 				.attr("d", alpLine);
 
 			focus.append("path")
-				.datum(votingIntention)
+				.datum(preferredPM)
 				.attr("class", "line lnpLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#005689")
 				.attr("clip-path", "url(#clip)")
-				.attr("d", lnpLine);  	  	    						   
+				.attr("d", lnpLine);
 
-			var alpLineTip = focus.append("g")
-				.attr("class", "lineTip")
-				.style("display", "none");
+			focus.append("path")
+				.datum(preferredPM)
+				.attr("class", "line dkLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#767676")
+				.attr("clip-path", "url(#clip)")
+				.attr("d", dkLine);  	  	  	    						   	
 
-			alpLineTip.append("rect")
-				.attr("width", 40)
-				.attr("height",20)
-				.attr("fill", "#FFF")
-				.attr("y", "-10")
-				.attr("x", "6")      
+			// var alpLineTip = focus.append("g")
+			// 	.attr("class", "lineTip")
+			// 	.style("display", "none");
 
-			alpLineTip.append("circle")
-				.attr("r", 4.5)
-				.style("pointer-events","none")
-				.style("fill", "#b51800");
+			// alpLineTip.append("rect")
+			// 	.attr("width", 40)
+			// 	.attr("height",20)
+			// 	.attr("fill", "#FFF")
+			// 	.attr("y", "-10")
+			// 	.attr("x", "6")      
 
-			alpLineTip.append("text")
-				.attr("x", 9)
-				.attr("dy", ".35em");
+			// alpLineTip.append("circle")
+			// 	.attr("r", 4.5)
+			// 	.style("pointer-events","none")
+			// 	.style("fill", "#b51800");
+
+			// alpLineTip.append("text")
+			// 	.attr("x", 9)
+			// 	.attr("dy", ".35em");
 
 			var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
 			function mousemove() {
 				var x0 = x.invert(d3.mouse(this)[0]);
-				var i = bisectDate(votingIntention, x0, 1);
-				var d0 = votingIntention[i - 1];
-				var d1 = votingIntention[i];
+				var i = bisectDate(preferredPM, x0, 1);
+				var d0 = preferredPM[i - 1];
+				var d1 = preferredPM[i];
 				if (d1 != undefined) {
 					var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
 				}
@@ -224,20 +241,26 @@ export default function makeTwopp(debug, chartData) {
 				.call(xAxis2);
 
 			context.append("path")
-				.datum(votingIntention)
+				.datum(preferredPM)
 				.attr("class", "line alpNavLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#b51800")
 				.attr("d", alpNavLine);  
 
 			context.append("path")
-				.datum(votingIntention)
+				.datum(preferredPM)
 				.attr("class", "line lnpNavLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#005689")
 				.attr("d", lnpNavLine);  	
 
-
+			context.append("path")
+				.datum(preferredPM)
+				.attr("class", "line dkNavLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#767676")
+				.attr("d", dkNavLine);
+	  		
 			var brush = d3.brushX()
 				.on("brush end", brushed);	
 
@@ -246,12 +269,12 @@ export default function makeTwopp(debug, chartData) {
 				.call(brush)
 				.call(brush.move, [startDate, endDate].map(x2));
 
-
         	function brushed() {
 				var s = d3.event.selection || x2.range();
 				x.domain(s.map(x2.invert, x2));
 				focus.select(".alpLine").attr("d", alpLine);
 				focus.select(".lnpLine").attr("d", lnpLine);
+				focus.select(".dkLine").attr("d", dkLine);
 				focus.select(".x.axis").call(xAxis);
 			}	
 

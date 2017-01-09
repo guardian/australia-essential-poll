@@ -24,13 +24,15 @@ export default function makeApproval(debug, chartData) {
 	    var extentY = [];
 
 	    preferredPM.forEach(function (d,i) {
-	    	d.alpPreferred = +d.alpPreferred; 
-	    	d.lnpPreferred = +d.lnpPreferred;
-	    	d.dkPreferred = +d.dkPreferred;
+	    	d.alpFavourable = +d.alpFavourable; 
+	    	d.lnpFavourable = +d.lnpFavourable; 
+	    	d.alpDK = +d.alpDK; 
+	    	d.lnpDK = +d.lnpDK; 
 	    	d.date = parseDate(d.date);
-	    	extentY.push(+d.alpPreferred)
-	    	extentY.push(+d.lnpPreferred)
-	    	extentY.push(+d.dkPreferred)
+	    	extentY.push(+d.alpFavourable)
+	    	extentY.push(+d.lnpFavourable)
+	    	extentY.push(+d.alpDK)
+	    	extentY.push(+d.lnpDK)
 	    });
 
 	    preferredPM.sort(function (a, b) {
@@ -68,27 +70,35 @@ export default function makeApproval(debug, chartData) {
 
 			var alpNavLine = d3.line()
 				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.alpPreferred); });
+				.y(function(d) { return y2(d.alpFavourable); });
 
 			var alpLine = d3.line()
 				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.alpPreferred); });
+				.y(function(d) { return y(d.alpFavourable); });
 
 			var lnpNavLine = d3.line()
 				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.lnpPreferred); });
+				.y(function(d) { return y2(d.lnpFavourable); });
 
 			var lnpLine = d3.line()
 				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.lnpPreferred); });
+				.y(function(d) { return y(d.lnpFavourable); });
 
-			var dkNavLine = d3.line()
+			var alpDKNavLine = d3.line()
 				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.dkPreferred); });
+				.y(function(d) { return y2(d.alpDK); });
 
-			var dkLine = d3.line()
+			var alpDKLine = d3.line()
 				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.dkPreferred); });	
+				.y(function(d) { return y(d.alpDK); });
+
+			var lnpDKNavLine = d3.line()
+				.x(function(d) { return x2(d.date); })
+				.y(function(d) { return y2(d.lnpDK); });
+
+			var lnpDKLine = d3.line()
+				.x(function(d) { return x(d.date); })
+				.y(function(d) { return y(d.lnpDK); });		
 
 			var svg = d3.select("#approvalContainer").append("svg")
 				.attr("width", width + margin.left + margin.right)
@@ -161,11 +171,20 @@ export default function makeApproval(debug, chartData) {
 
 			focus.append("path")
 				.datum(preferredPM)
-				.attr("class", "line dkLine")
+				.attr("class", "line alpDKLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#767676")
 				.attr("clip-path", "url(#clip)")
-				.attr("d", dkLine);  	  	  	    						   
+				.attr("d", alpDKLine);  	  	  	    						   
+
+			focus.append("path")
+				.datum(preferredPM)
+				.attr("class", "line lnpDKLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#767676")
+				.attr("clip-path", "url(#clip)")
+				.attr("d", lnpDKLine);  	
+
 
 			// var alpLineTip = focus.append("g")
 			// 	.attr("class", "lineTip")
@@ -254,11 +273,18 @@ export default function makeApproval(debug, chartData) {
 
 			context.append("path")
 				.datum(preferredPM)
-				.attr("class", "line dkNavLine")
+				.attr("class", "line alpDKNavLine")
 				.attr("stroke-width", 1)
 				.attr("stroke", "#767676")
-				.attr("d", dkNavLine);  		
+				.attr("d", alpDKNavLine);
 
+			context.append("path")
+				.datum(preferredPM)
+				.attr("class", "line lnpDKNavLine")
+				.attr("stroke-width", 1)
+				.attr("stroke", "#767676")
+				.attr("d", lnpDKNavLine);  		
+	  		
 			var brush = d3.brushX()
 				.on("brush end", brushed);	
 
@@ -272,7 +298,8 @@ export default function makeApproval(debug, chartData) {
 				x.domain(s.map(x2.invert, x2));
 				focus.select(".alpLine").attr("d", alpLine);
 				focus.select(".lnpLine").attr("d", lnpLine);
-				focus.select(".dkLine").attr("d", dkLine);
+				focus.select(".alpDKLine").attr("d", alpDKLine);
+				focus.select(".lnpDKLine").attr("d", lnpDKLine);
 				focus.select(".x.axis").call(xAxis);
 			}	
 

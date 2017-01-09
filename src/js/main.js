@@ -7,6 +7,7 @@ import makeHeader from './makeHeader'
 import makeTwopp from './makeTwopp'
 import makeVoting from './makeVoting'
 import makeApproval from './makeApproval'
+import makePreferred from './makePreferredPM'
 import * as d3 from 'd3'
 
 var debug = true;
@@ -54,6 +55,7 @@ export function init(el, context, config, mediator) {
                 makeTwopp(debug,resp);
                 makeVoting(debug,resp);
                 makeApproval(debug,resp);
+                makePreferred(debug,resp);
             }
         })
 
