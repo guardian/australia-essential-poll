@@ -4,6 +4,7 @@
 @import "general";
 @import "share";
 @import "grid";
+@import "table";
 
 .interactive-container {
 	#header {
@@ -39,4 +40,89 @@
 	#mainCol {
 		max-width:980px;
 	}
+
+	#navCol {
+		min-height:20px;
+	}
+
+	.navWrapper {
+
+		font-size:1rem;
+		line-height:1.2rem;
+		color:#767676;
+		font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+
+		ul {
+			list-style: none;
+			-webkit-margin-before:0;
+			-webkit-margin-after:0;
+			-webkit-padding-start:0;
+		}
+
+		li {
+			list-style: none;
+		    text-decoration: none;
+		    margin-bottom: 0;
+		    padding-left: 10px;
+		}
+
+		li>a {
+			text-decoration: none;
+			color:#767676;
+		}
+
+		.navHeader {
+			font-weight:bold;
+			font-size:1.1rem;
+			color:#000;
+		}
+		
+	}
+
+	.navWrapper:after {
+		content: " "; /* Older browser do not support empty content */
+		visibility: hidden;
+		display: block;
+		height: 0;
+		clear: both;
+	}
+
+	.figureTitle {
+		font-size:1.25rem;
+		line-height:1.375rem;
+		padding-bottom:0.5rem;
+		font-weight:600;
+		color:#000;
+	}
+
+	.figureSubTitle {
+		font-size:1rem;
+		color:#808080;
+		font-weight:bold;
+		font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+	}	
+
+.borderBottom {
+	border-bottom:1px solid #dcdcdc;
+	padding-bottom:.45rem;
+}
+
+.chartSans {
+	font-size:0.8rem;
+	line-height:1em;
+	color:#767676;
+	font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+}
+
+.subTitle {
+	font-size:1rem;
+	color:#808080;
+	font-weight:bold;
+	font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+}
+
+	.figureSubtitle {
+
+	}
+
 }

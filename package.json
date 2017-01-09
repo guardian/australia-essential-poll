@@ -31,6 +31,7 @@
       "guardian/iframe-messenger": "github:guardian/iframe-messenger@master",
       "json": "github:systemjs/plugin-json@^0.1.0",
       "reqwest": "github:ded/reqwest@^1.1.5",
+      "sticky-js": "npm:sticky-js@^1.1.6",
       "text": "github:systemjs/plugin-text@^0.0.2"
     },
     "devDependencies": {

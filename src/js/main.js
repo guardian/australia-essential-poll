@@ -8,6 +8,8 @@ import makeTwopp from './makeTwopp'
 import makeVoting from './makeVoting'
 import makeApproval from './makeApproval'
 import makePreferred from './makePreferredPM'
+import makeTables from './makeTables'
+import Sticky from 'sticky-js'
 import * as d3 from 'd3'
 
 var debug = true;
@@ -44,7 +46,7 @@ export function init(el, context, config, mediator) {
 
         makeHeader(debug);
 
-        //Make the results charts 
+        //Make the results charts - this spreadsheet reference is always the same
 
         reqwest({
             url: 'https://interactive.guim.co.uk/docsdata/1-hIlthccTseJ-ri_fVoFoqcWOQAg2H4PpJPXoebuSq0.json',
@@ -58,6 +60,14 @@ export function init(el, context, config, mediator) {
                 makePreferred(debug,resp);
             }
         })
+
+        // Make tables and news blocks
+        console.log("configData", configData);
+        makeTables(debug, configData.sheets.config);
+
+        //Sticky nav
+
+        var sticky = new Sticky('.sticky');
 
 
     }

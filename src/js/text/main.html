@@ -9,14 +9,30 @@
     </div>
     <div class="row">
         <div id="navCol" class="col30">
+            <div> </div>
+            <div class="navWrapper sticky">
+                <div class='navHeader'>Political views</div>
+                <ul>
+                    <li><a>Two party preferred</a></li>
+                    <li><a>Primary voting intention</a></li>
+                    <li><a>Approval rating of leaders</a></li>
+                    <li><a>Preferred Prime Minister</a></li>
+                </ul>
+                <div class='navHeader'>Other questions</div>
+                <ul id='otherQuestions'>
+                </ul>    
+                <div class='navHeader'>Analysis & news</div>
+                <ul id='articles'>
+                </ul> 
 
+            </div>    
         </div>
         
         <div id="mainCol" class="col70">
 
             <div class="row">
 
-                <div class='chartTitle'>Two party preferred</div>
+                <div class='figureTitle'>Two party preferred</div>
                 <div class='row  chartNotes' id='key'></div>
                 <div class="row borderBottom chartSans" id="twoPartyPreferredContainer"></div>
 
@@ -24,7 +40,7 @@
 
             <div class="row">
 
-                <div class='chartTitle'>Primary voting intention</div>
+                <div class='figureTitle'>Primary voting intention</div>
                 <div class='row  chartNotes' id='key'></div>
                 <div class="row borderBottom chartSans" id="primaryVotingContainer"></div>
 
@@ -32,7 +48,7 @@
 
             <div class="row">
 
-                <div class='chartTitle'>Approval rating of leaders</div>
+                <div class='figureTitle'>Approval rating of leaders</div>
                 <div class='row  chartNotes' id='key'></div>
                 <div class="row borderBottom chartSans" id="approvalContainer"></div>
 
@@ -40,11 +56,20 @@
 
             <div class="row">
 
-                <div class='chartTitle'>Preferred Prime Minister</div>
+                <div class='figureTitle'>Preferred Prime Minister</div>
                 <div class='row  chartNotes' id='key'></div>
                 <div class="row borderBottom chartSans" id="preferredContainer"></div>
 
             </div>
+
+            <div id="tablesContainer">
+
+
+            </div>
+
+            <div id="articlesContainer">
+
+            </div>    
 
         </div> 
     </div>       
