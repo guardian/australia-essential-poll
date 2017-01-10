@@ -9,6 +9,8 @@ import makeVoting from './makeVoting'
 import makeApproval from './makeApproval'
 import makePreferred from './makePreferredPM'
 import makeTables from './makeTables'
+import makeArticles from './makeArticles'
+import makeFurniture from './makeFurniture'
 import Sticky from 'sticky-js'
 import * as d3 from 'd3'
 
@@ -46,6 +48,10 @@ export function init(el, context, config, mediator) {
 
         makeHeader(debug);
 
+        //Add various bits of text
+
+        makeFurniture(debug,configData.sheets.furniture);
+
         //Make the results charts - this spreadsheet reference is always the same
 
         reqwest({
@@ -58,12 +64,14 @@ export function init(el, context, config, mediator) {
                 makeVoting(debug,resp);
                 makeApproval(debug,resp);
                 makePreferred(debug,resp);
+
             }
         })
 
         // Make tables and news blocks
         console.log("configData", configData);
         makeTables(debug, configData.sheets.config);
+        makeArticles(debug, configData.sheets.config);
 
         //Sticky nav
 

@@ -11,6 +11,12 @@ export default function makeTables(debug, configData) {
 
 			console.log(d.chapterTitle)
 
+			var navList = d3.select("#otherQuestions");
+			
+			navList
+				.append("li")
+				.text(d.chapterTitle);	
+
 			reqwest({
             url: 'https://interactive.guim.co.uk/docsdata/' + d.key + '.json',
             type: 'json',
@@ -32,18 +38,14 @@ export default function makeTables(debug, configData) {
 
 
 		var tableDiv = tablesContainer.append("div")
-						.attr("class", "pollTable row")
+						.attr("class", "pollTable row borderBottom")
 
 		tableDiv
 			.append("div")
 			.attr("class","figureTitle")
 			.text(data.tableMeta[0].title)	
 
-		var navList = d3.select("#otherQuestions");
-
-		navList
-			.append("li")
-			.text(data.tableMeta[0].title)	
+		
 			
 		var table = tableDiv
 						.append("table")
