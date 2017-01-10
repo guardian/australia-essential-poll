@@ -2,8 +2,8 @@ import * as d3 from 'd3'
 
 export default function makeHeader(debug) {
 
-        var width = document.querySelector("#header").getBoundingClientRect().width;
-        var height = document.querySelector("#header").getBoundingClientRect().height;
+        var width = document.querySelector(".interactive-container #header").getBoundingClientRect().width;
+        var height = document.querySelector(".interactive-container #header").getBoundingClientRect().height;
         var data = {};    
 
         (debug) ? console.log("width",width,"height",height) : null;

@@ -25,23 +25,35 @@ export default function makeArticles(debug, configData) {
 			var articlesContainer = d3.select("#articlesContainer");
 
 			var articleDiv = articlesContainer.append("div")
-								.attr("class", "article");
+								.attr("class", "article " + d.articleTone);
+
+			articleDiv
+				.append("img")
+				.attr("class","articleImage")
+				.attr("src", d.articleImage)					
 
 			articleDiv
 				.append("div")
-				.attr("class","figureTitle")
-				.text(d.articleTitle)
+				.attr("class","articleTitle")
+				.html(function () { 
+					if (d.articleTone === 'news') {
+						return "<span class='newsSpan'>News </span> " + d.articleTitle;
+					}
 
-			articleDiv
-				.append("div")
-				.attr("class","articleSubtitle")
-				.text(d.articleStandfirst)
+					else {
+						return "<span class='commentSpan'>Comment </span> " + d.articleTitle;
+					}
+				})
+
+			// articleDiv
+			// 	.append("div")
+			// 	.attr("class","articleSubtitle")
+			// 	.text(d.articleStandfirst)
 
 			articleDiv
 				.append("a")
-				.attr("class", "readmore")
+				.attr("class", "blockLink")
 				.attr("href", d.articleUrl)
-				.text("read more")
 
 		});
 
