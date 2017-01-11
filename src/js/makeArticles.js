@@ -14,17 +14,20 @@ export default function makeArticles(debug, configData) {
 
 		console.log(articleData);
 
-		articleData.forEach(function (d) {
+		articleData.forEach(function (d,i) {
 
 			var navList = d3.select("#articles");
 			
 			navList
 				.append("li")
+				.append("a")
+				.attr("href", "#article" + i)
 				.text(d.chapterTitle);		
 
 			var articlesContainer = d3.select("#articlesContainer");
 
 			var articleDiv = articlesContainer.append("div")
+								.attr("id", "article" + i)	
 								.attr("class", "article item " + d.articleTone);
 
 			articleDiv

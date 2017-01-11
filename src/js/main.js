@@ -72,9 +72,8 @@ export function init(el, context, config, mediator) {
 
         // Make tables and news blocks
         console.log("configData", configData);
-        makeTables(debug, configData.sheets.config);
         makeArticles(debug, configData.sheets.config);
-
+        makeTables(debug, configData.sheets.config);
         //Sticky nav
 
         var sticky = new Sticky('.sticky');
