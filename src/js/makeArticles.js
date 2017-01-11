@@ -25,7 +25,7 @@ export default function makeArticles(debug, configData) {
 			var articlesContainer = d3.select("#articlesContainer");
 
 			var articleDiv = articlesContainer.append("div")
-								.attr("class", "article " + d.articleTone);
+								.attr("class", "article item " + d.articleTone);
 
 			articleDiv
 				.append("img")

@@ -11,13 +11,15 @@ import makePreferred from './makePreferredPM'
 import makeTables from './makeTables'
 import makeArticles from './makeArticles'
 import makeFurniture from './makeFurniture'
+
 import Sticky from 'sticky-js'
 import * as d3 from 'd3'
 
-var debug = true;
+var debug = false;
 var shareFn = share('Interactive title', 'http://gu.com/p/URL', '#Interactive');
 
 export function init(el, context, config, mediator) {
+
     el.innerHTML = mainHTML.replace(/%assetPath%/g, config.assetPath);    
 
     var params = parseURL(el);
@@ -26,7 +28,7 @@ export function init(el, context, config, mediator) {
         loadConfig(params);
     } else {
         //error if key is not found
-        dom.innerHTML = '<h1>Please enter a key in the alt text of the embed or as a param on the url in the format "key=""</h1>';
+        document.body.innerHTML = '<h1>Please enter a key in the alt text of the embed or as a param on the url in the format "key=""</h1>';
     }
 
     function loadConfig(params) {
@@ -48,7 +50,7 @@ export function init(el, context, config, mediator) {
 
         makeHeader(debug);
 
-        //Add various bits of text
+        //Add various bits of
 
         makeFurniture(debug,configData.sheets.furniture);
 
@@ -76,7 +78,7 @@ export function init(el, context, config, mediator) {
         //Sticky nav
 
         var sticky = new Sticky('.sticky');
-
+       
 
     }
 

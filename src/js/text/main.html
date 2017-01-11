@@ -21,21 +21,21 @@
         </div>    
 
     </div>    
-    <div class="row">
+    <div class="row" id="mainSection">
         <div id="navCol" class="col30">
-            <div class="navWrapper sticky">
+            <div class="navWrapper sticky" id="navWrapper">
                 <div class='navHeader'>Political views</div>
-                <ul>
-                    <li><a>Two party preferred</a></li>
-                    <li><a>Primary voting intention</a></li>
-                    <li><a>Approval rating of leaders</a></li>
-                    <li><a>Preferred Prime Minister</a></li>
+                <ul class='nav'>
+                    <li><a href="#twoPartyPreferred">Two party preferred</a></li>
+                    <li><a href="#primaryVoting">Primary voting intention</a></li>
+                    <li><a href="#approvalRating">Approval rating of leaders</a></li>
+                    <li><a href="#preferredPm">Preferred Prime Minister</a></li>
                 </ul>
                 <div class='navHeader'>Other questions</div>
-                <ul id='otherQuestions'>
+                <ul id='otherQuestions' class='nav'>
                 </ul>    
                 <div class='navHeader'>Analysis & news</div>
-                <ul id='articles'>
+                <ul id='articles' class='nav'>
                 </ul> 
                 <div class='navHeader'>Notes</div>
             </div>    
@@ -43,7 +43,7 @@
         
         <div id="mainCol" class="col70">
 
-            <div class="row borderBottom">
+            <div class="row borderBottom item" id="twoPartyPreferred">
 
                 <div class='figureTitle'>Two party preferred</div>
                 <div class='chartNotes' id='key'></div>
@@ -51,7 +51,7 @@
 
             </div>
 
-            <div class="row borderBottom">
+            <div class="row borderBottom item" id="primaryVoting">
 
                 <div class='figureTitle'>Primary voting intention</div>
                 <div class='chartNotes' id='key'></div>
@@ -59,7 +59,7 @@
 
             </div>
 
-            <div class="row borderBottom">
+            <div class="row borderBottom item" id="approvalRating">
 
                 <div class='figureTitle'>Approval rating of leaders</div>
                 <div class='chartNotes' id='key'></div>
@@ -67,7 +67,7 @@
 
             </div>
 
-            <div class="row borderBottom">
+            <div class="row borderBottom item" id="preferredPm">
 
                 <div class='figureTitle'>Preferred Prime Minister</div>
                 <div class='chartNotes' id='key'></div>
@@ -83,7 +83,7 @@
 
             </div>
 
-            <div class="borderBottom row">
+            <div class="borderBottom row item" data-id="notes">
                 <div class='figureTitle'>Notes</div>
                 <div id="appendix"></div>
             </div>  

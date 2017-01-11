@@ -24,8 +24,11 @@ System.config({
     "core-js": "npm:core-js@1.2.6",
     "d3": "npm:d3@4.4.0",
     "guardian/iframe-messenger": "github:guardian/iframe-messenger@master",
+    "jquery": "npm:jquery@3.1.1",
     "json": "github:systemjs/plugin-json@0.1.2",
+    "qwery": "npm:qwery@4.0.0",
     "reqwest": "github:ded/reqwest@1.1.5",
+    "scrollspy-js": "npm:scrollspy-js@0.1.3",
     "sticky-js": "npm:sticky-js@1.1.6",
     "text": "github:systemjs/plugin-text@0.0.2",
     "github:jspm/nodelibs-assert@0.1.0": {
@@ -234,6 +237,9 @@ System.config({
       "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
     "npm:punycode@1.3.2": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:qwery@4.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:readable-stream@1.1.14": {
