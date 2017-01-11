@@ -279,4 +279,14 @@
 	
 	}
 
+	@media (max-width: 61.25em) {
+		#navCol {
+			display: none;
+		}
+
+		.col30, .col70 {
+			width: 100%;
+		}
+	}
+
 }
