@@ -177,6 +177,7 @@ export default function makeVoting(debug, chartData) {
 				.datum(votingIntention)
 				.attr("class", "line greensLine")
 				.attr("stroke-width", 1)
+				.style("stroke-dasharray", ("10, 3"))
 				.attr("stroke", "#298422")
 				.attr("clip-path", "url(#clip)")
 				.attr("d", greensLine);
@@ -277,6 +278,7 @@ export default function makeVoting(debug, chartData) {
 			context.append("path")
 				.datum(votingIntention)
 				.attr("class", "line greensNavLine")
+				.style("stroke-dasharray", ("10, 2"))
 				.attr("stroke-width", 1)
 				.attr("stroke", "#298422")
 				.attr("d", greensNavLine);  
