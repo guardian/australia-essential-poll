@@ -36,7 +36,7 @@ export function init(el, context, config, mediator) {
             type: 'json',
             crossOrigin: true,
             success: function(resp) { 
-                (debug) ? console.log(resp) : null;
+                // (debug) ? console.log(resp) : null;
                 renderResults(resp)
             }
         })
@@ -60,7 +60,7 @@ export function init(el, context, config, mediator) {
             type: 'json',
             crossOrigin: true,
             success: function(resp) { 
-                (debug) ? console.log(resp) : null;
+                // (debug) ? console.log(resp) : null;
                 makeTwopp(debug,resp);
                 makeVoting(debug,resp);
                 makeApproval(debug,resp);
@@ -70,7 +70,7 @@ export function init(el, context, config, mediator) {
         })
 
         // Make tables and news blocks
-        console.log("configData", configData);
+        // console.log("configData", configData);
         makeArticles(debug, configData.sheets.config);
         makeTables(debug, configData.sheets.config);
         //Sticky nav

@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 
 export default function makeVoting(debug, chartData) {
 
-		(debug) ? console.log("chartData",chartData) : null;
+		// (debug) ? console.log("chartData",chartData) : null;
 
 		var votingIntention = chartData.sheets.votingIntention;
 
@@ -17,7 +17,7 @@ export default function makeVoting(debug, chartData) {
 	        height = getH - margin.top - margin.bottom,
 	        height2 = getH - margin2.top - margin2.bottom;
 
-	    console.log("height",height,"width",width,"margin",margin, "margin2", margin2, "height2", height2);    
+	    // console.log("height",height,"width",width,"margin",margin, "margin2", margin2, "height2", height2);    
 
 	    var parseDate = d3.timeParse("%-d/%-m/%Y");    
 
@@ -27,8 +27,15 @@ export default function makeVoting(debug, chartData) {
 
 	    	d['alp'] = +d['alp'];
 	    	d['lnp'] = +d['lnp'];
+
 	    	d['greens'] = +d['greens'];
+	    	
+	    	if (d['ON'] == "") {
+	    		d['ON'] = null;
+	    	}
+	    	else {
 	    	d['ON'] = +d['ON'];
+	    	}
 
 	    	extentY.push(+d['alp']);
 	    	extentY.push(+d['lnp']);
@@ -36,6 +43,8 @@ export default function makeVoting(debug, chartData) {
 	    	extentY.push(+d['ON']);
 
 	    });
+
+	    console.log("votingIntention",votingIntention);
 
 	    votingIntention.sort(function (a, b) {
 			if (a.date > b.date) {
@@ -97,10 +106,12 @@ export default function makeVoting(debug, chartData) {
 				.y(function(d) { return y(d.greens); });
 
 			var onNavLine = d3.line()
+				.defined(function(d) { return d.ON; })
 				.x(function(d) { return x2(d.date); })
 				.y(function(d) { return y2(d.ON); });
 
 			var onLine = d3.line()
+				.defined(function(d) { return d.ON; })
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.ON); });		
 
@@ -188,7 +199,7 @@ export default function makeVoting(debug, chartData) {
 				.attr("stroke-width", 1)
 				.attr("stroke", "#ff9b0b")
 				.attr("clip-path", "url(#clip)")
-				.attr("d", onLine);  	
+				.attr("d", onLine)
 
 			// var alpLineTip = focus.append("g")
 			// 	.attr("class", "lineTip")

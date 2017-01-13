@@ -24,14 +24,31 @@ export default function makePreferred(debug, chartData) {
 	    var extentY = [];
 
 	    preferredPM.forEach(function (d,i) {
-	    	d.alpFavourable = +d.alpFavourable; 
-	    	d.lnpFavourable = +d.lnpFavourable; 
-	    	d.alpDK = +d.alpDK; 
-	    	d.lnpDK = +d.lnpDK; 
+	    	if (d.alpFavourable == "") {
+	    		d.alpFavourable = null;
+	    	}
+	    	else {
+	    		d.alpFavourable = +d.alpFavourable; 
+	    	}
+
+	    	if (d.lnpFavourable === "") {
+	    		 d.lnpFavourable = null;
+	    	}
+	    	
+	    	else {
+	    		d.lnpFavourable = +d.lnpFavourable;
+	    	}
+
+	    	if (d.dkPreferred === "") {
+	    		d.dkPreferred = null
+	    	}
+
+	    	else {
+	    		d.dkPreferred = +d.dkPreferred
+	    	}
 	    	extentY.push(+d.alpFavourable)
 	    	extentY.push(+d.lnpFavourable)
-	    	extentY.push(+d.alpDK)
-	    	extentY.push(+d.lnpDK)
+	    	extentY.push(+d.dkPreferred)
 	    });
 
 	    preferredPM.sort(function (a, b) {
@@ -68,29 +85,34 @@ export default function makePreferred(debug, chartData) {
 				.scale(y);
 
 			var alpNavLine = d3.line()
+				.defined(function(d) { return d.alpPreferred; })
 				.x(function(d) { return x2(d.date); })
 				.y(function(d) { return y2(d.alpPreferred); });
 
 			var alpLine = d3.line()
+				.defined(function(d) { return d.alpPreferred; })
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.alpPreferred); });
 
 			var lnpNavLine = d3.line()
+				.defined(function(d) { return d.lnpPreferred; })
 				.x(function(d) { return x2(d.date); })
 				.y(function(d) { return y2(d.lnpPreferred); });
 
 			var lnpLine = d3.line()
+				.defined(function(d) { return d.lnpPreferred; })
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.lnpPreferred); });
 
 			var dkNavLine = d3.line()
+				.defined(function(d) { return d.dkPreferred; })
 				.x(function(d) { return x2(d.date); })
 				.y(function(d) { return y2(d.dkPreferred); });
 
 			var dkLine = d3.line()
+				.defined(function(d) { return d.dkPreferred; })
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.dkPreferred); });
-
 
 			var svg = d3.select("#preferredContainer").append("svg")
 				.attr("width", width + margin.left + margin.right)

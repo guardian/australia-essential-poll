@@ -24,15 +24,28 @@ export default function makeApproval(debug, chartData) {
 	    var extentY = [];
 
 	    preferredPM.forEach(function (d,i) {
-	    	d.alpFavourable = +d.alpFavourable; 
-	    	d.lnpFavourable = +d.lnpFavourable; 
-	    	d.alpDK = +d.alpDK; 
-	    	d.lnpDK = +d.lnpDK; 
+	    	if (d.alpFavourable == "") {
+	    		d.alpFavourable = null;
+	    	}
+	    	else {
+	    		d.alpFavourable = +d.alpFavourable; 
+	    	}
+	    	
+	    	if (d.lnpFavourable == "") {
+	    		d.lnpFavourable = null;
+	    	}
+
+	    	else {
+	    		d.lnpFavourable = +d.lnpFavourable; 
+	    	}
+	    	
+	    	// d.alpDK = +d.alpDK; 
+	    	// d.lnpDK = +d.lnpDK; 
 	    	d.date = parseDate(d.date);
 	    	extentY.push(+d.alpFavourable)
 	    	extentY.push(+d.lnpFavourable)
-	    	extentY.push(+d.alpDK)
-	    	extentY.push(+d.lnpDK)
+	    	// extentY.push(+d.alpDK)
+	    	// extentY.push(+d.lnpDK)
 	    });
 
 	    preferredPM.sort(function (a, b) {
@@ -69,18 +82,22 @@ export default function makeApproval(debug, chartData) {
 				.scale(y);
 
 			var alpNavLine = d3.line()
+				.defined(function(d) { return d.alpFavourable; })
 				.x(function(d) { return x2(d.date); })
 				.y(function(d) { return y2(d.alpFavourable); });
 
 			var alpLine = d3.line()
+				.defined(function(d) { return d.alpFavourable; })
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.alpFavourable); });
 
 			var lnpNavLine = d3.line()
+				.defined(function(d) { return d.lnpFavourable; })
 				.x(function(d) { return x2(d.date); })
 				.y(function(d) { return y2(d.lnpFavourable); });
 
 			var lnpLine = d3.line()
+				.defined(function(d) { return d.lnpFavourable; })
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.lnpFavourable); });
 
