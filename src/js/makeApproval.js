@@ -169,21 +169,21 @@ export default function makeApproval(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("d", lnpLine);
 
-			focus.append("path")
-				.datum(preferredPM)
-				.attr("class", "line alpDKLine")
-				.attr("stroke-width", 1)
-				.attr("stroke", "#767676")
-				.attr("clip-path", "url(#clip)")
-				.attr("d", alpDKLine);  	  	  	    						   
+			// focus.append("path")
+			// 	.datum(preferredPM)
+			// 	.attr("class", "line alpDKLine")
+			// 	.attr("stroke-width", 1)
+			// 	.attr("stroke", "#767676")
+			// 	.attr("clip-path", "url(#clip)")
+			// 	.attr("d", alpDKLine);  	  	  	    						   
 
-			focus.append("path")
-				.datum(preferredPM)
-				.attr("class", "line lnpDKLine")
-				.attr("stroke-width", 1)
-				.attr("stroke", "#767676")
-				.attr("clip-path", "url(#clip)")
-				.attr("d", lnpDKLine);  	
+			// focus.append("path")
+			// 	.datum(preferredPM)
+			// 	.attr("class", "line lnpDKLine")
+			// 	.attr("stroke-width", 1)
+			// 	.attr("stroke", "#767676")
+			// 	.attr("clip-path", "url(#clip)")
+			// 	.attr("d", lnpDKLine);  	
 
 
 			// var alpLineTip = focus.append("g")
@@ -271,19 +271,19 @@ export default function makeApproval(debug, chartData) {
 				.attr("stroke", "#005689")
 				.attr("d", lnpNavLine);  	
 
-			context.append("path")
-				.datum(preferredPM)
-				.attr("class", "line alpDKNavLine")
-				.attr("stroke-width", 1)
-				.attr("stroke", "#767676")
-				.attr("d", alpDKNavLine);
+			// context.append("path")
+			// 	.datum(preferredPM)
+			// 	.attr("class", "line alpDKNavLine")
+			// 	.attr("stroke-width", 1)
+			// 	.attr("stroke", "#767676")
+			// 	.attr("d", alpDKNavLine);
 
-			context.append("path")
-				.datum(preferredPM)
-				.attr("class", "line lnpDKNavLine")
-				.attr("stroke-width", 1)
-				.attr("stroke", "#767676")
-				.attr("d", lnpDKNavLine);  		
+			// context.append("path")
+			// 	.datum(preferredPM)
+			// 	.attr("class", "line lnpDKNavLine")
+			// 	.attr("stroke-width", 1)
+			// 	.attr("stroke", "#767676")
+			// 	.attr("d", lnpDKNavLine);  		
 	  		
 			var brush = d3.brushX()
 				.on("brush end", brushed);	

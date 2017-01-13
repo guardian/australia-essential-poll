@@ -3,7 +3,8 @@ import * as d3 from 'd3'
 export default function makeHeader(debug) {
 
         var width = document.querySelector(".interactive-container #header").getBoundingClientRect().width;
-        var height = document.querySelector(".interactive-container #header").getBoundingClientRect().height;
+        var height = document.querySelector(".interactive-container #header").getBoundingClientRect().height - 20;
+        var headerHeight = document.querySelector("#header h1").getBoundingClientRect().height;
         var data = {};    
 
         (debug) ? console.log("width",width,"height",height) : null;
@@ -12,13 +13,15 @@ export default function makeHeader(debug) {
             data['red'] = []
             data['blue'] = []
 
-            var redBase = 50;
-            var blueBase = 60;
+            var redBase = 90;
+            var blueBase = 100;
             var smallMove = 1;
             var bigMove = 2;
             var biggerMove = 5;
 
-            for (var i = 0; i < 100; i++) {
+            if (width >= 620) {
+                for (var i = 0; i < 100; i++) {
+
                 if (i < 60) {
                     data['red'].push(redBase)
                     data['blue'].push(blueBase)
@@ -102,6 +105,16 @@ export default function makeHeader(debug) {
                 }
 
             };
+            
+        }   
+
+        else {
+
+            for (var i = 0; i < 100; i++) {
+                    data['red'].push(redBase)
+                    data['blue'].push(blueBase)
+            };    
+        }        
 
         }
 
@@ -125,14 +138,18 @@ export default function makeHeader(debug) {
                 .x(function(d,i) { return x(i) })
                 .y(function(d,i) { return y(d) });    
 
+        console.log("movethings",((-1 * height) + headerHeight), "height", height,"headerHeight", headerHeight);            
+
         svg.append("path")
               .attr("class", "red line")
               .style("stroke","#b51800")
+              .attr("transform", "translate(0," + (headerHeight + 0.4*headerHeight) + ")")
               .attr("d", line(data['red']))
 
         svg.append("path")
               .attr("class", "blue line")
               .style("stroke","#005689")
+            .attr("transform", "translate(0," + (headerHeight + 0.4*headerHeight) + ")")
               .attr("d", line(data['blue']))     
 
         var headerUpdateTimer = setInterval(function() {

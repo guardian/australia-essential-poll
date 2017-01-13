@@ -31,7 +31,7 @@ export default function makeTables(debug, configData) {
 	                console.log(tally);
 	                if (tally === tableData.length) {
 	                	var spy = new ScrollSpy('#mainSection', {
-		                    nav: '.nav a',
+		                    nav: '.pollNav a',
 		                    className: 'currentNav'
 		                });
 	                }

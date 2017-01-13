@@ -6,6 +6,11 @@ figure.interactive {
     position:relative;
 }
 
+h1,h2,h3 {
+    margin:0;
+    padding:0;
+}
+
 // Link styles don't exist on the app
 a {
     &,

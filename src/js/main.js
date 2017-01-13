@@ -11,7 +11,6 @@ import makePreferred from './makePreferredPM'
 import makeTables from './makeTables'
 import makeArticles from './makeArticles'
 import makeFurniture from './makeFurniture'
-
 import Sticky from 'sticky-js'
 import * as d3 from 'd3'
 

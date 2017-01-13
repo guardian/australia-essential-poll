@@ -2,14 +2,16 @@
     <div class="row" id="header">
         <div id="backgroundHeaderGraph">
         </div>    
-        <div id="headerTextContainer">    
+        <div id="headerTextContainer">
+            <div id='h1Wrapper'>    
             <h1>The Guardian-Essential poll</h1>
-            <h2>Australian politics and national opinion trends<h2>
+            </div>    
+            <div class="subHeading">Australian politics and national opinion trends</div>
         </div>
     </div>
 
     <div class="row highlight">
-        <div class="col30">
+        <div class="col30" id="dateArchive">
             <div id="date">
             </div>
             <a href="" class="readmore">Archives</a>    
@@ -25,17 +27,17 @@
         <div id="navCol" class="col30">
             <div class="navWrapper sticky" id="navWrapper">
                 <div class='navHeader'>Political views</div>
-                <ul class='nav'>
+                <ul class='pollNav'>
                     <li><a href="#twoPartyPreferred">Two party preferred</a></li>
                     <li><a href="#primaryVoting">Primary voting intention</a></li>
                     <li><a href="#approvalRating">Approval rating of leaders</a></li>
                     <li><a href="#preferredPm">Preferred Prime Minister</a></li>
                 </ul>
                 <div class='navHeader'>Other questions</div>
-                <ul id='otherQuestions' class='nav'>
+                <ul id='otherQuestions' class='pollNav'>
                 </ul>    
                 <div class='navHeader'>Analysis & news</div>
-                <ul id='articles' class='nav'>
+                <ul id='articles' class='pollNav'>
                 </ul> 
                 <div class='navHeader'>Notes</div>
             </div>    
@@ -46,7 +48,16 @@
             <div class="row borderBottom item" id="twoPartyPreferred">
 
                 <div class='figureTitle'>Two party preferred</div>
-                <div class='chartNotes' id='key'></div>
+                <div class='key'>
+                    <div class='keyDiv'>
+                            <span class='keySymbol' style="border-color: #b51800"></span> 
+                            <span class='keyText'>ALP</span>
+                    </div>
+                    <div class='keyDiv'>
+                         <span class='keySymbol' style="border-color: #005689"></span> 
+                         <span class='keyText'>Coalition</span>
+                    </div>
+                </div>
                 <div class="chartSans chart" id="twoPartyPreferredContainer"></div>
 
             </div>
@@ -54,7 +65,24 @@
             <div class="row borderBottom item" id="primaryVoting">
 
                 <div class='figureTitle'>Primary voting intention</div>
-                <div class='chartNotes' id='key'></div>
+                <div class='key'>
+                    <div class='keyDiv'>
+                            <span class='keySymbol' style="border-color: #b51800"></span> 
+                            <span class='keyText'>ALP</span>
+                    </div>
+                    <div class='keyDiv'>
+                         <span class='keySymbol' style="border-color: #005689"></span> 
+                         <span class='keyText'>Coalition</span>
+                    </div>
+                    <div class='keyDiv'>
+                         <span class='keySymbolDotted' style="border-color: #298422;"></span> 
+                         <span class='keyText'>Greens</span>
+                    </div>
+                    <div class='keyDiv'>
+                         <span class='keySymbol' style="border-color: #ff9b0b"></span> 
+                         <span class='keyText'>One Nation</span>
+                    </div>
+                </div>
                 <div class="chartSans chart" id="primaryVotingContainer"></div>
 
             </div>
@@ -62,7 +90,16 @@
             <div class="row borderBottom item" id="approvalRating">
 
                 <div class='figureTitle'>Approval rating of leaders</div>
-                <div class='chartNotes' id='key'></div>
+                <div class='key'>
+                    <div class='keyDiv'>
+                            <span class='keySymbol' style="border-color: #b51800"></span> 
+                            <span class='keyText'>ALP</span>
+                    </div>
+                    <div class='keyDiv'>
+                         <span class='keySymbol' style="border-color: #005689"></span> 
+                         <span class='keyText'>Coalition</span>
+                    </div>
+                </div>
                 <div class="chartSans chart" id="approvalContainer"></div>
 
             </div>
@@ -70,7 +107,16 @@
             <div class="row borderBottom item" id="preferredPm">
 
                 <div class='figureTitle'>Preferred Prime Minister</div>
-                <div class='chartNotes' id='key'></div>
+                <div class='key'>
+                    <div class='keyDiv'>
+                            <span class='keySymbol' style="border-color: #b51800"></span> 
+                            <span class='keyText'>ALP</span>
+                    </div>
+                    <div class='keyDiv'>
+                         <span class='keySymbol' style="border-color: #005689"></span> 
+                         <span class='keyText'>Coalition</span>
+                    </div>
+                </div>
                 <div class="chartSans chart" id="preferredContainer"></div>
 
             </div>

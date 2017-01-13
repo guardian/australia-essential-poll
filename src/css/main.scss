@@ -17,8 +17,9 @@
 			font-size:3rem;
 		}
 
-		h2 {
-			margin-top:100px;	
+		.subHeading {
+			margin-top:15%;	
+			font-weight:bold;
 			color:#767676;
 			font-size:1.5rem;
 		}
@@ -63,6 +64,11 @@
 
 	#mainCol {
 		max-width:980px;
+
+		.row {
+			margin-bottom: 50px;
+			padding-bottom:50px;
+		}
 	}
 
 	#mainSection {
@@ -71,6 +77,42 @@
 
 	#navCol {
 		min-height:20px;
+	}
+
+	.keyText {
+		font-size:0.8rem;
+	}
+
+	.keyDiv {
+		display: inline-block;
+		margin-left:10px;
+	}
+
+	.keyDiv .keyCircle:first-of-type {
+	    margin-left:0;
+	}
+
+	.keySymbol {
+		height:3px;
+		width:15px;
+		margin-bottom:3px;
+		border-bottom: 3px solid;
+		display: inline-block;
+	}
+
+	.keySymbolDotted {
+		height:3px;
+		width:15px;
+		margin-bottom:3px;
+		border-bottom: 3px dotted;
+		display: inline-block;
+	}
+
+	.key {
+		font-size:0.9rem;
+		line-height:1em;
+		color:#767676;
+		font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
 	}
 
 	.navWrapper {
@@ -279,14 +321,52 @@
 	
 	}
 
-	@media (max-width: 61.25em) {
+	@media (max-width: map-get($mq-breakpoints, tablet)) {
 		#navCol {
 			display: none;
+		}
+
+		#dateArchive div, #dateArchive a {
+			display: inline-block;
+		}
+
+
+		#pollStandfirst {
+			font-size:1rem; 
+		}
+	
+
+		#dateArchive {
+
+			margin-bottom:20px;
+
+			a {
+			float: right;
+			}
 		}
 
 		.col30, .col70 {
 			width: 100%;
 		}
+
+		#header {
+
+		min-height: 150px;
+		margin-bottom:0px;	
+
+		h1 {
+			font-size:2rem;
+		}
+
+		.subHeading {	
+			font-size:1.3rem;
+		}
+
+		#headerTextContainer {
+			position:absolute;
+			width:100%;
+		}
+	}
 	}
 
 }
