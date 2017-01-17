@@ -58,6 +58,14 @@ export default function makeApproval(debug, chartData) {
 			return 0;
 		});
 
+
+	    var coalitionApproval = preferredPM[preferredPM.length -1]['lnpFavourable'];
+	    var coalitionDisapproval = preferredPM[preferredPM.length -1]['lnpUnfavourable'];
+	    var laborApproval = preferredPM[preferredPM.length - 1]['alpFavourable'];
+	    var laborDisapproval = preferredPM[preferredPM.length - 1]['alpUnfavourable'];
+
+	    d3.select("#approvalNotes").html(`<span class='coalitionHighlight'>${coalitionApproval}%</span> of respondents approve of the job that <span class='coalitionKey'>Malcolm Turnbull</span> is doing as Prime Minister, and <span class='coalitionHighlight'>${coalitionDisapproval}%</span> disapprove. <span class='laborHighlight'>${laborApproval}%</span> of respondents approve of the job that <span class='laborKey'>Bill Shorten</span> is doing as Prime Minister, and <span class='laborHighlight'>${coalitionDisapproval}%</span> disapprove`);
+
 	    
 	    // Two party preferred chart
 

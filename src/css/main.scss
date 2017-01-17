@@ -176,6 +176,7 @@
 
 	.figureSubTitle {
 		font-size:1rem;
+		line-height:1.3rem;
 		color:#808080;
 		font-weight:bold;
 		font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
@@ -216,6 +217,15 @@
 
 	.onKey {
 		border-bottom: 2px solid #ff9b0b;
+	}	
+
+	.dkHighlight {
+		font-weight: bold;
+		color: #767676;
+	}
+
+	.dkKey {
+		border-bottom: 2px solid #767676;
 	}	
 
 

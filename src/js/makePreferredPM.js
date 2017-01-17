@@ -24,19 +24,19 @@ export default function makePreferred(debug, chartData) {
 	    var extentY = [];
 
 	    preferredPM.forEach(function (d,i) {
-	    	if (d.alpFavourable == "") {
-	    		d.alpFavourable = null;
+	    	if (d.alpPreferred == "") {
+	    		d.alpPreferred = null;
 	    	}
 	    	else {
-	    		d.alpFavourable = +d.alpFavourable; 
+	    		d.alpPreferred = +d.alpPreferred; 
 	    	}
 
-	    	if (d.lnpFavourable === "") {
-	    		 d.lnpFavourable = null;
+	    	if (d.lnpPreferred === "") {
+	    		 d.lnpPreferred = null;
 	    	}
 	    	
 	    	else {
-	    		d.lnpFavourable = +d.lnpFavourable;
+	    		d.lnpPreferred = +d.lnpPreferred;
 	    	}
 
 	    	if (d.dkPreferred === "") {
@@ -46,9 +46,9 @@ export default function makePreferred(debug, chartData) {
 	    	else {
 	    		d.dkPreferred = +d.dkPreferred
 	    	}
-	    	extentY.push(+d.alpFavourable)
-	    	extentY.push(+d.lnpFavourable)
-	    	extentY.push(+d.dkPreferred)
+	    	extentY.push(+d.alpPreferred)
+	    	extentY.push(+d.lnpPreferred)
+	    	// extentY.push(+d.dkPreferred)
 	    });
 
 	    preferredPM.sort(function (a, b) {
@@ -60,6 +60,12 @@ export default function makePreferred(debug, chartData) {
 			}
 			return 0;
 		});
+
+	    var coalitionPreferred = preferredPM[preferredPM.length -1]['lnpPreferred'];
+	    var laborPreferred = preferredPM[preferredPM.length - 1]['alpPreferred'];
+	    // var dkPreferred = preferredPM[preferredPM.length - 1]['dkPreferred'];
+
+	    d3.select("#preferredPMNotes").html(`<span class='coalitionHighlight'>${coalitionPreferred}%</span> of respondents think <span class='coalitionKey'>Malcolm Turnbull</span> would make the better Prime Minister and <span class='laborHighlight'>${laborPreferred}%</span> think <span class='laborKey'>Bill Shorten</span> would make the better Prime Minister`); //'
 
 	    
 	    // Two party preferred chart
@@ -109,10 +115,10 @@ export default function makePreferred(debug, chartData) {
 				.x(function(d) { return x2(d.date); })
 				.y(function(d) { return y2(d.dkPreferred); });
 
-			var dkLine = d3.line()
-				.defined(function(d) { return d.dkPreferred; })
-				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.dkPreferred); });
+			// var dkLine = d3.line()
+			// 	.defined(function(d) { return d.dkPreferred; })
+			// 	.x(function(d) { return x(d.date); })
+			// 	.y(function(d) { return y(d.dkPreferred); });
 
 			var svg = d3.select("#preferredContainer").append("svg")
 				.attr("width", width + margin.left + margin.right)
@@ -183,13 +189,13 @@ export default function makePreferred(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("d", lnpLine);
 
-			focus.append("path")
-				.datum(preferredPM)
-				.attr("class", "line dkLine")
-				.attr("stroke-width", 1)
-				.attr("stroke", "#767676")
-				.attr("clip-path", "url(#clip)")
-				.attr("d", dkLine);  	  	  	    						   	
+			// focus.append("path")
+			// 	.datum(preferredPM)
+			// 	.attr("class", "line dkLine")
+			// 	.attr("stroke-width", 1)
+			// 	.attr("stroke", "#767676")
+			// 	.attr("clip-path", "url(#clip)")
+			// 	.attr("d", dkLine);  	  	  	    						   	
 
 			// var alpLineTip = focus.append("g")
 			// 	.attr("class", "lineTip")
@@ -276,12 +282,12 @@ export default function makePreferred(debug, chartData) {
 				.attr("stroke", "#005689")
 				.attr("d", lnpNavLine);  	
 
-			context.append("path")
-				.datum(preferredPM)
-				.attr("class", "line dkNavLine")
-				.attr("stroke-width", 1)
-				.attr("stroke", "#767676")
-				.attr("d", dkNavLine);
+			// context.append("path")
+			// 	.datum(preferredPM)
+			// 	.attr("class", "line dkNavLine")
+			// 	.attr("stroke-width", 1)
+			// 	.attr("stroke", "#767676")
+			// 	.attr("d", dkNavLine);
 	  		
 			var brush = d3.brushX()
 				.on("brush end", brushed);	
@@ -296,7 +302,7 @@ export default function makePreferred(debug, chartData) {
 				x.domain(s.map(x2.invert, x2));
 				focus.select(".alpLine").attr("d", alpLine);
 				focus.select(".lnpLine").attr("d", lnpLine);
-				focus.select(".dkLine").attr("d", dkLine);
+				// focus.select(".dkLine").attr("d", dkLine);
 				focus.select(".x.axis").call(xAxis);
 			}	
 
