@@ -56,6 +56,15 @@ export default function makeVoting(debug, chartData) {
 			return 0;
 		});
 
+	    var coalition = votingIntention[votingIntention.length -1]['lnp'];
+	    var labor = votingIntention[votingIntention.length - 1]['alp'];
+	    var greens = votingIntention[votingIntention.length - 1]['greens'];
+	    var on = votingIntention[votingIntention.length - 1]['ON'];
+
+
+	    d3.select("#primaryNotes").html(`If an election were held today, the primary vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition}%</span>, <span class='laborKey'>Labor</span> would be <span class='laborHighlight'>${labor}%</span>, the <span class='greensKey'>Greens</span> would be <span class='greensHighlight'>${greens}%</span>, and <span class='onKey'>One Nation</span> would be <span class='onHighlight'>${on}%</span></span>`);
+
+
 	    
 	    // Two party preferred chart
 

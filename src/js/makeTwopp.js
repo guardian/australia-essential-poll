@@ -44,6 +44,11 @@ export default function makeTwopp(debug, chartData) {
 			return 0;
 		});
 
+	   
+	    var coalition2pp = votingIntention[votingIntention.length -1]['lnp2PP'];
+	    var labor2pp = votingIntention[votingIntention.length - 1]['alp2PP'];
+
+	    d3.select("#twoPartyPreferredNotes").html(`If an election were held today, the two-party preferred vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition2pp}%</span>, and <span class='laborKey'>Labor</span> would be <span class='laborHighlight'>${labor2pp}%</span>`);
 	    
 	    // Two party preferred chart
 
@@ -245,7 +250,6 @@ export default function makeTwopp(debug, chartData) {
 				.attr("class", "brush")
 				.call(brush)
 				.call(brush.move, [startDate, endDate].map(x2));
-
 
         	function brushed() {
 				var s = d3.event.selection || x2.range();

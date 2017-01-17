@@ -66,7 +66,7 @@
 		max-width:980px;
 
 		.row {
-			margin-bottom: 50px;
+			margin-bottom:50px;
 			padding-bottom:50px;
 		}
 	}
@@ -171,6 +171,7 @@
 		padding-bottom:0.5rem;
 		font-weight:600;
 		color:#000;
+		margin-bottom:1rem;
 	}
 
 	.figureSubTitle {
@@ -178,7 +179,45 @@
 		color:#808080;
 		font-weight:bold;
 		font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+		margin-bottom:1rem;
+	}
+
+	.coalitionKey {
+		border-bottom: 2px solid #005689;
+	}
+
+	.coalitionHighlight {
+		font-weight: bold;
+		color: #005689;
+	}
+
+	.laborHighlight {
+		font-weight: bold;
+		color: #b51800;
+	}
+
+	.laborKey {
+		border-bottom: 2px solid #b51800;
+	}
+
+	.greensHighlight {
+		font-weight: bold;
+		color: #298422;
+	}
+
+	.greensKey {
+		border-bottom: 2px dashed #298422;
+	}		
+
+	.onHighlight {
+		font-weight: bold;
+		color: #ff9b0b;
+	}
+
+	.onKey {
+		border-bottom: 2px solid #ff9b0b;
 	}	
+
 
 	.borderBottom {
 		border-bottom:1px solid #dcdcdc;
