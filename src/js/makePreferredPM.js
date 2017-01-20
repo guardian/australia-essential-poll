@@ -84,6 +84,10 @@ export default function makePreferred(debug, chartData, mobile) {
 	        var xAxis = d3.axisBottom()
 				.scale(x);
 
+			if (mobile) {
+				xAxis.ticks(5);
+			}		
+
 		    var xAxis2 = d3.axisBottom()
 		        .scale(x2);
 
