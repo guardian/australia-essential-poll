@@ -45,6 +45,13 @@ export function init(el, context, config, mediator) {
 
     function renderResults(configData) {
 
+        var docWidth = window.innerWidth;
+        var mobile = false;
+
+        if (docWidth < 740) {
+            mobile = true;
+        }
+
         //Make the header
 
         makeHeader(debug);
@@ -61,10 +68,10 @@ export function init(el, context, config, mediator) {
             crossOrigin: true,
             success: function(resp) { 
                 // (debug) ? console.log(resp) : null;
-                makeTwopp(debug,resp);
-                makeVoting(debug,resp);
-                makeApproval(debug,resp);
-                makePreferred(debug,resp);
+                makeTwopp(debug,resp,mobile);
+                makeVoting(debug,resp,mobile);
+                makeApproval(debug,resp,mobile);
+                makePreferred(debug,resp,mobile);
 
             }
         })

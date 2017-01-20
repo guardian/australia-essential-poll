@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 
-export default function makeTwopp(debug, chartData) {
+export default function makeTwopp(debug, chartData, mobile) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 
@@ -131,24 +131,7 @@ export default function makeTwopp(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("stroke-width", 1);   
 
-			focus.append("rect")
-				.attr("class", "mouseOverlay")
-				.attr("opacity", 0)
-				.attr("width", width)
-				.attr("height", height)
-				.on("mouseover", function() { 
-						alpLineTip.style("display", null);
-						lnpLineTip.style("display", null);
-						})
-				.on("mouseout", function() { 
-					alpLineTip.style("display", "none"); 
-					lnpLineTip.style("display", "none"); 
-				})
-				.on("touchstart", function() { 
-					alpLineTip.style("display", null); 
-					lnpLineTip.style("display", null); 
-				})
-				.on("mousemove", mousemove);
+			
 
 			focus.append("path")
 				.datum(votingIntention)
@@ -166,65 +149,89 @@ export default function makeTwopp(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("d", lnpLine);  	  	    						   
 
-			var alpLineTip = focus.append("g")
-				.attr("class", "lineTip")
-				.style("display", "none"); 
 
-			alpLineTip.append("circle")
-				.attr("r", 4.5)
-				.style("pointer-events","none")
-				.style("fill", "#b51800");
+			if (!mobile) {
+				focus.append("rect")
+				.attr("class", "mouseOverlay")
+				.attr("opacity", 0)
+				.attr("width", width)
+				.attr("height", height)
+				.on("mouseover", function() { 
+						alpLineTip.style("display", null);
+						lnpLineTip.style("display", null);
+						})
+				.on("mouseout", function() { 
+					alpLineTip.style("display", "none"); 
+					lnpLineTip.style("display", "none"); 
+				})
+				.on("touchstart", function() { 
+					alpLineTip.style("display", null); 
+					lnpLineTip.style("display", null); 
+				})
+				.on("mousemove", mousemove);	
 
-			alpLineTip.append("text")
-				.attr("dy", "-10")
-				.attr("dx", "-5");
 
-			var lnpLineTip = focus.append("g")
-				.attr("class", "lineTip")
-				.style("display", "none");  
+				var alpLineTip = focus.append("g")
+					.attr("class", "lineTip")
+					.style("display", "none"); 
 
-			lnpLineTip.append("circle")
-				.attr("r", 4.5)
-				.style("pointer-events","none")
-				.style("fill", "#005689");
+				alpLineTip.append("circle")
+					.attr("r", 4.5)
+					.style("pointer-events","none")
+					.style("fill", "#b51800");
 
-			lnpLineTip.append("text")
-				.attr("dy", "-10")
-				.attr("dx", "-5");		
+				alpLineTip.append("text")
+					.attr("dy", "-10")
+					.attr("dx", "-5");
 
-			var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+				var lnpLineTip = focus.append("g")
+					.attr("class", "lineTip")
+					.style("display", "none");  
 
-			function mousemove() {
-				var x0 = x.invert(d3.mouse(this)[0]);
-				var i = bisectDate(votingIntention, x0, 1);
-				var d0 = votingIntention[i - 1];
-				var d1 = votingIntention[i];
-				if (d1 != undefined) {
-					var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-				}
-				else {
-					var d = d0;
-				}
+				lnpLineTip.append("circle")
+					.attr("r", 4.5)
+					.style("pointer-events","none")
+					.style("fill", "#005689");
 
-				alpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alp2PP) + ")");
-				alpLineTip.select("text").text(d.alp2PP);
+				lnpLineTip.append("text")
+					.attr("dy", "-10")
+					.attr("dx", "-5");		
 
-				lnpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.lnp2PP) + ")");
-				lnpLineTip.select("text").text(d.lnp2PP);
+				var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
-				if (+d.alp2PP >= +d.lnp2PP) {
-					alpLineTip.select("text").attr("dy", "-10")
-					lnpLineTip.select("text").attr("dy", "20")
-				}
+				function mousemove() {
+					var x0 = x.invert(d3.mouse(this)[0]);
+					var i = bisectDate(votingIntention, x0, 1);
+					var d0 = votingIntention[i - 1];
+					var d1 = votingIntention[i];
+					if (d1 != undefined) {
+						var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+					}
+					else {
+						var d = d0;
+					}
 
-				else {
-					alpLineTip.select("text").attr("dy", "20")
-					lnpLineTip.select("text").attr("dy", "-10")
-				}
+					alpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alp2PP) + ")");
+					alpLineTip.select("text").text(d.alp2PP);
 
-				
+					lnpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.lnp2PP) + ")");
+					lnpLineTip.select("text").text(d.lnp2PP);
 
-			} //End mousemove   
+					if (+d.alp2PP >= +d.lnp2PP) {
+						alpLineTip.select("text").attr("dy", "-10")
+						lnpLineTip.select("text").attr("dy", "20")
+					}
+
+					else {
+						alpLineTip.select("text").attr("dy", "20")
+						lnpLineTip.select("text").attr("dy", "-10")
+					}
+
+				} //End mousemove   
+
+			} //end mobile check
+
+			
 
 
 			// context.append("line")

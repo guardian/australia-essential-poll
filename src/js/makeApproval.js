@@ -4,8 +4,6 @@ export default function makeApproval(debug, chartData) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 		var preferredPM = chartData.sheets.preferredPM;
-
-
 		// Shared vars and functions
 
 		var getW = document.querySelector("#approvalContainer").getBoundingClientRect().width;
