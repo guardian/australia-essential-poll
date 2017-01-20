@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 
-export default function makeApproval(debug, chartData) {
+export default function makeApproval(debug, chartData, mobile) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 		var preferredPM = chartData.sheets.preferredPM;
@@ -106,22 +106,7 @@ export default function makeApproval(debug, chartData) {
 				.defined(function(d) { return d.lnpFavourable; })
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.lnpFavourable); });
-
-			var alpDKNavLine = d3.line()
-				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.alpDK); });
-
-			var alpDKLine = d3.line()
-				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.alpDK); });
-
-			var lnpDKNavLine = d3.line()
-				.x(function(d) { return x2(d.date); })
-				.y(function(d) { return y2(d.lnpDK); });
-
-			var lnpDKLine = d3.line()
-				.x(function(d) { return x(d.date); })
-				.y(function(d) { return y(d.lnpDK); });		
+	
 
 			var svg = d3.select("#approvalContainer").append("svg")
 				.attr("width", width + margin.left + margin.right)
@@ -166,16 +151,6 @@ export default function makeApproval(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("stroke-width", 1);   
 
-			// focus.append("rect")
-			// 	.attr("class", "mouseOverlay")
-			// 	.attr("opacity", 0)
-			// 	.attr("width", width)
-			// 	.attr("height", height)
-			// 	.on("mouseover", function() { lineTip.style("display", null); })
-			// 	.on("mouseout", function() { lineTip.style("display", "none"); })
-			// 	.on("touchstart", function() { lineTip.style("display", null); })
-			// 	.on("mousemove", mousemove);
-
 			focus.append("path")
 				.datum(preferredPM)
 				.attr("class", "line alpLine")
@@ -191,78 +166,103 @@ export default function makeApproval(debug, chartData) {
 				.attr("stroke", "#005689")
 				.attr("clip-path", "url(#clip)")
 				.attr("d", lnpLine);
+			
+			if (!mobile) {
+				focus.append("rect")
+				.attr("class", "mouseOverlay")
+				.attr("opacity", 0)
+				.attr("width", width)
+				.attr("height", height)
+				.on("mouseover", function() { 
+						alpLineTip.style("display", null);
+						lnpLineTip.style("display", null);
+						})
+				.on("mouseout", function() { 
+					alpLineTip.style("display", "none"); 
+					lnpLineTip.style("display", "none"); 
+				})
+				.on("touchstart", function() { 
+					alpLineTip.style("display", null); 
+					lnpLineTip.style("display", null); 
+				})
+				.on("mousemove", mousemove);	
 
-			// focus.append("path")
-			// 	.datum(preferredPM)
-			// 	.attr("class", "line alpDKLine")
-			// 	.attr("stroke-width", 1)
-			// 	.attr("stroke", "#767676")
-			// 	.attr("clip-path", "url(#clip)")
-			// 	.attr("d", alpDKLine);  	  	  	    						   
 
-			// focus.append("path")
-			// 	.datum(preferredPM)
-			// 	.attr("class", "line lnpDKLine")
-			// 	.attr("stroke-width", 1)
-			// 	.attr("stroke", "#767676")
-			// 	.attr("clip-path", "url(#clip)")
-			// 	.attr("d", lnpDKLine);  	
+				var alpLineTip = focus.append("g")
+					.attr("class", "lineTip")
+					.style("display", "none"); 
 
+				alpLineTip.append("circle")
+					.attr("r", 4.5)
+					.style("pointer-events","none")
+					.style("fill", "#b51800");
 
-			// var alpLineTip = focus.append("g")
-			// 	.attr("class", "lineTip")
-			// 	.style("display", "none");
+				alpLineTip.append("text")
+					.attr("dy", "-10")
+					.attr("dx", "-5");
 
-			// alpLineTip.append("rect")
-			// 	.attr("width", 40)
-			// 	.attr("height",20)
-			// 	.attr("fill", "#FFF")
-			// 	.attr("y", "-10")
-			// 	.attr("x", "6")      
+				var lnpLineTip = focus.append("g")
+					.attr("class", "lineTip")
+					.style("display", "none");  
 
-			// alpLineTip.append("circle")
-			// 	.attr("r", 4.5)
-			// 	.style("pointer-events","none")
-			// 	.style("fill", "#b51800");
+				lnpLineTip.append("circle")
+					.attr("r", 4.5)
+					.style("pointer-events","none")
+					.style("fill", "#005689");
 
-			// alpLineTip.append("text")
-			// 	.attr("x", 9)
-			// 	.attr("dy", ".35em");
+				lnpLineTip.append("text")
+					.attr("dy", "-10")
+					.attr("dx", "-5");		
 
-			var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+				var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
-			function mousemove() {
-				var x0 = x.invert(d3.mouse(this)[0]);
-				var i = bisectDate(preferredPM, x0, 1);
-				var d0 = preferredPM[i - 1];
-				var d1 = preferredPM[i];
-				if (d1 != undefined) {
-					var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-				}
-				else {
-					var d = d0;
-				}
+				function mousemove() {
+					var x0 = x.invert(d3.mouse(this)[0]);
+					var i = bisectDate(preferredPM, x0, 1);
+					var d0 = preferredPM[i - 1];
+					var d1 = preferredPM[i];
+					if (d1 != undefined) {
+						var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+					}
+					else {
+						var d = d0;
+					}
 
-				if (x(d.date) > width - 50) {
-					alpLineTip.select("rect")
-						.attr("x", "-46");
+					if (d.alpFavourable === null) {
+						alpLineTip.style("display", "none"); 
+					}
 
-					alpLineTip.select("text")
-						.attr("x", "-43")  
-				}
+					else {
+						alpLineTip.style("display", null); 
+					}
 
-				else {
-					alpLineTip.select("rect")
-						.attr("x", "6")
+					if (d.lnpFavourable === null) {
+						lnpLineTip.style("display", "none"); 
+					}
 
-					alpLineTip.select("text")
-						.attr("x", "9")     
-				}
-   
-				alpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alp2PP) + ")");
-				alpLineTip.select("text").text(d.alp2PP);
+					else {
+						lnpLineTip.style("display", null); 
+					}
 
-			} //End mousemove   
+					alpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alpFavourable) + ")");
+					alpLineTip.select("text").text(d.alpFavourable);
+
+					lnpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.lnpFavourable) + ")");
+					lnpLineTip.select("text").text(d.lnpFavourable);
+
+					if (+d.alpFavourable >= +d.lnpFavourable) {
+						alpLineTip.select("text").attr("dy", "-10")
+						lnpLineTip.select("text").attr("dy", "20")
+					}
+
+					else {
+						alpLineTip.select("text").attr("dy", "20")
+						lnpLineTip.select("text").attr("dy", "-10")
+					}
+
+				} //End mousemove   
+
+			} //end mobile check 
 
 
 			// context.append("line")
@@ -321,8 +321,6 @@ export default function makeApproval(debug, chartData) {
 				x.domain(s.map(x2.invert, x2));
 				focus.select(".alpLine").attr("d", alpLine);
 				focus.select(".lnpLine").attr("d", lnpLine);
-				focus.select(".alpDKLine").attr("d", alpDKLine);
-				focus.select(".lnpDKLine").attr("d", lnpDKLine);
 				focus.select(".x.axis").call(xAxis);
 			}	
 
