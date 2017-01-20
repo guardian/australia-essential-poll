@@ -14,7 +14,7 @@ import makeFurniture from './makeFurniture'
 import Sticky from 'sticky-js'
 import * as d3 from 'd3'
 
-var debug = false;
+var debug = true;
 var shareFn = share('Interactive title', 'http://gu.com/p/URL', '#Interactive');
 
 export function init(el, context, config, mediator) {

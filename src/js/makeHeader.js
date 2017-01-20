@@ -6,6 +6,10 @@ export default function makeHeader(debug) {
         var height = document.querySelector(".interactive-container #header").getBoundingClientRect().height - 20;
         var headerHeight = document.querySelector("#header h1").getBoundingClientRect().height;
         var data = {};    
+        var lineOffset = 100;
+        if (height < 230) {
+            lineOffset = 75;
+        }
 
         (debug) ? console.log("width",width,"height",height) : null;
 
@@ -143,13 +147,13 @@ export default function makeHeader(debug) {
         svg.append("path")
               .attr("class", "red line")
               .style("stroke","#b51800")
-              .attr("transform", "translate(0," + (headerHeight + 0.4*headerHeight) + ")")
+              .attr("transform", "translate(0," + lineOffset + ")")
               .attr("d", line(data['red']))
 
         svg.append("path")
               .attr("class", "blue line")
               .style("stroke","#005689")
-            .attr("transform", "translate(0," + (headerHeight + 0.4*headerHeight) + ")")
+            .attr("transform", "translate(0," + lineOffset + ")")
               .attr("d", line(data['blue']))     
 
         var headerUpdateTimer = setInterval(function() {

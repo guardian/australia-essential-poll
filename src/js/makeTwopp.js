@@ -131,15 +131,24 @@ export default function makeTwopp(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("stroke-width", 1);   
 
-			// focus.append("rect")
-			// 	.attr("class", "mouseOverlay")
-			// 	.attr("opacity", 0)
-			// 	.attr("width", width)
-			// 	.attr("height", height)
-			// 	.on("mouseover", function() { lineTip.style("display", null); })
-			// 	.on("mouseout", function() { lineTip.style("display", "none"); })
-			// 	.on("touchstart", function() { lineTip.style("display", null); })
-			// 	.on("mousemove", mousemove);
+			focus.append("rect")
+				.attr("class", "mouseOverlay")
+				.attr("opacity", 0)
+				.attr("width", width)
+				.attr("height", height)
+				.on("mouseover", function() { 
+						alpLineTip.style("display", null);
+						lnpLineTip.style("display", null);
+						})
+				.on("mouseout", function() { 
+					alpLineTip.style("display", "none"); 
+					lnpLineTip.style("display", "none"); 
+				})
+				.on("touchstart", function() { 
+					alpLineTip.style("display", null); 
+					lnpLineTip.style("display", null); 
+				})
+				.on("mousemove", mousemove);
 
 			focus.append("path")
 				.datum(votingIntention)
@@ -157,25 +166,31 @@ export default function makeTwopp(debug, chartData) {
 				.attr("clip-path", "url(#clip)")
 				.attr("d", lnpLine);  	  	    						   
 
-			// var alpLineTip = focus.append("g")
-			// 	.attr("class", "lineTip")
-			// 	.style("display", "none");
+			var alpLineTip = focus.append("g")
+				.attr("class", "lineTip")
+				.style("display", "none"); 
 
-			// alpLineTip.append("rect")
-			// 	.attr("width", 40)
-			// 	.attr("height",20)
-			// 	.attr("fill", "#FFF")
-			// 	.attr("y", "-10")
-			// 	.attr("x", "6")      
+			alpLineTip.append("circle")
+				.attr("r", 4.5)
+				.style("pointer-events","none")
+				.style("fill", "#b51800");
 
-			// alpLineTip.append("circle")
-			// 	.attr("r", 4.5)
-			// 	.style("pointer-events","none")
-			// 	.style("fill", "#b51800");
+			alpLineTip.append("text")
+				.attr("dy", "-10")
+				.attr("dx", "-5");
 
-			// alpLineTip.append("text")
-			// 	.attr("x", 9)
-			// 	.attr("dy", ".35em");
+			var lnpLineTip = focus.append("g")
+				.attr("class", "lineTip")
+				.style("display", "none");  
+
+			lnpLineTip.append("circle")
+				.attr("r", 4.5)
+				.style("pointer-events","none")
+				.style("fill", "#005689");
+
+			lnpLineTip.append("text")
+				.attr("dy", "-10")
+				.attr("dx", "-5");		
 
 			var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 
@@ -191,24 +206,23 @@ export default function makeTwopp(debug, chartData) {
 					var d = d0;
 				}
 
-				if (x(d.date) > width - 50) {
-					alpLineTip.select("rect")
-						.attr("x", "-46");
+				alpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alp2PP) + ")");
+				alpLineTip.select("text").text(d.alp2PP);
 
-					alpLineTip.select("text")
-						.attr("x", "-43")  
+				lnpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.lnp2PP) + ")");
+				lnpLineTip.select("text").text(d.lnp2PP);
+
+				if (+d.alp2PP >= +d.lnp2PP) {
+					alpLineTip.select("text").attr("dy", "-10")
+					lnpLineTip.select("text").attr("dy", "20")
 				}
 
 				else {
-					alpLineTip.select("rect")
-						.attr("x", "6")
-
-					alpLineTip.select("text")
-						.attr("x", "9")     
+					alpLineTip.select("text").attr("dy", "20")
+					lnpLineTip.select("text").attr("dy", "-10")
 				}
-   
-				alpLineTip.attr("transform", "translate(" + x(d.date) + "," + y(d.alp2PP) + ")");
-				alpLineTip.select("text").text(d.alp2PP);
+
+				
 
 			} //End mousemove   
 

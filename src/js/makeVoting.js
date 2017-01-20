@@ -62,7 +62,7 @@ export default function makeVoting(debug, chartData) {
 	    var on = votingIntention[votingIntention.length - 1]['ON'];
 
 
-	    d3.select("#primaryNotes").html(`If an election were held today, the primary vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition}%</span>, <span class='laborKey'>Labor</span> would be <span class='laborHighlight'>${labor}%</span>, the <span class='greensKey'>Greens</span> would be <span class='greensHighlight'>${greens}%</span>, and <span class='onKey'>One Nation</span> would be <span class='onHighlight'>${on}%</span></span>`);
+	    d3.select("#primaryNotes").html(`If an election were held today, the primary vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition}%</span>, <span class='laborKey'>Labor's</span> would be <span class='laborHighlight'>${labor}%</span>, the <span class='greensKey'>Greens's</span> would be <span class='greensHighlight'>${greens}%</span>, and <span class='onKey'>One Nation's</span> would be <span class='onHighlight'>${on}%</span></span>`);
 
 
 	    
