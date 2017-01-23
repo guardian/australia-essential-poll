@@ -116,7 +116,7 @@
 
 	.key {
 		font-size:0.9rem;
-		line-height:1em;
+		line-height:1rem;
 		color:#767676;
 		font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
 	}
@@ -241,7 +241,7 @@
 
 	.chartSans {
 		font-size:0.8rem;
-		line-height:1em;
+		line-height:1rem;
 		color:#767676;
 		font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
 	}
@@ -424,5 +424,23 @@
 		}
 	}
 	}
+
+	@media (max-width: 460px) {
+		
+		#articlesContainer {
+			display: inline;
+
+			.article {
+			width:100%;
+			margin-right:0;
+			margin-bottom:50px;
+			}		
+
+		}
+
+			
+
+	}
+
 
 }

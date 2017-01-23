@@ -1,4 +1,13 @@
 #tablesContainer {
+
+	.stacktable.large-only { display: table; }
+	.stacktable.small-only { display: none; }
+
+	@media (max-width: 460px) {
+	.stacktable.large-only { display: none; }
+	.stacktable.small-only { display: table; }
+	}
+
 	tr th {
 		padding: 6px 20px 6px 0;
 	}

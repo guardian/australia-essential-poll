@@ -30,6 +30,7 @@ System.config({
     "reqwest": "github:ded/reqwest@1.1.5",
     "scrollspy-js": "npm:scrollspy-js@0.1.3",
     "sticky-js": "npm:sticky-js@1.1.6",
+    "tablesaw": "npm:tablesaw@3.0.0-beta.3",
     "text": "github:systemjs/plugin-text@0.0.2",
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.4.1"
@@ -257,6 +258,11 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:shoestring@1.0.5": {
+      "child_process": "github:jspm/nodelibs-child_process@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:stream-browserify@1.0.0": {
       "events": "github:jspm/nodelibs-events@0.1.1",
       "inherits": "npm:inherits@2.0.1",
@@ -264,6 +270,11 @@ System.config({
     },
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
+    },
+    "npm:tablesaw@3.0.0-beta.3": {
+      "javascript-natural-sort": "npm:javascript-natural-sort@0.7.1",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "shoestring": "npm:shoestring@1.0.5"
     },
     "npm:url@0.10.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",

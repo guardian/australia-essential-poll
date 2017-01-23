@@ -12,6 +12,7 @@
 		min-height: 250px;
 		position:relative;
 		margin-bottom: 30px;
+		
 
 		h1 {
 			font-weight:bold;
@@ -61,6 +62,10 @@
 	.line {
 		fill: none;
 		stroke-width: 3px;
+	}
+
+	.lineTip {
+		pointer-events: none;
 	}
 
 	#mainCol {
@@ -402,7 +407,8 @@
 		#header {
 
 		min-height: 150px;
-		margin-bottom:0px;	
+		margin-bottom:10px;	
+		padding-bottom:10px;
 
 		h1 {
 			font-size:2rem;

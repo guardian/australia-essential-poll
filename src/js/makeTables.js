@@ -1,5 +1,7 @@
 import reqwest from 'reqwest'
 import ScrollSpy from 'scrollspy-js'
+import jQuery from 'jquery'
+import stacktable from './stacktable'
 import * as d3 from 'd3'
 
 export default function makeTables(debug, configData) {
@@ -33,7 +35,12 @@ export default function makeTables(debug, configData) {
 	                	var spy = new ScrollSpy('#mainSection', {
 		                    nav: '.pollNav a',
 		                    className: 'currentNav'
+
+		                  
+
 		                });
+	                
+	                	$(".tables").stacktable();
 	                }
             	}
         	})
@@ -68,6 +75,7 @@ export default function makeTables(debug, configData) {
 
 		var table = tableDiv
 						.append("table")
+						.attr("class", "tables")
 
 		var tableHeadings = table.append("thead")
 								.append("tr")
@@ -93,7 +101,7 @@ export default function makeTables(debug, configData) {
 				
 			};
 
-
+		
 	}
 
 }	
