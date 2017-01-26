@@ -313,6 +313,7 @@ export default function makeApproval(debug, chartData, mobile) {
 			// 	.attr("d", lnpDKNavLine);  		
 	  		
 			var brush = d3.brushX()
+				.extent([[0, 0], [width, height2]])
 				.on("brush end", brushed);	
 
    			context.append("g")

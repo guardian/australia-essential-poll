@@ -386,6 +386,7 @@ export default function makeVoting(debug, chartData, mobile) {
 				.attr("d", onNavLine); 	
 
 			var brush = d3.brushX()
+				.extent([[0, 0], [width, height2]])
 				.on("brush end", brushed);	
 
    			context.append("g")

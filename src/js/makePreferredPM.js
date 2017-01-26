@@ -316,6 +316,7 @@ export default function makePreferred(debug, chartData, mobile) {
 			// 	.attr("d", dkNavLine);
 	  		
 			var brush = d3.brushX()
+				.extent([[0, 0], [width, height2]])
 				.on("brush end", brushed);	
 
    			context.append("g")

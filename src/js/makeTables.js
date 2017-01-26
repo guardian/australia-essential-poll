@@ -6,51 +6,24 @@ import * as d3 from 'd3'
 
 export default function makeTables(debug, configData) {
 
-	var tableData = [];
+	console.log(configData);
 
-	configData.forEach(function (d,i) { 
-		if (d.contentType === 'table') {
-		tableData.push(d);
-		}
-	});
+	configData.config.forEach(function (d,i) { 
+			if (d.contentType === 'table') {
+				makeTable(configData[d.key],i,d);
+			}
+		});
 
-	console.log(tableData.length);
+	var spy = new ScrollSpy('#mainSection', {
+        nav: '.pollNav a',
+        className: 'currentNav'
+    });
 
-	var tally = 0;
-	configData.forEach(function (d,i) {
-		if (d.contentType === 'table') {
-
-			console.log(d.chapterTitle)
-
-			reqwest({
-            url: 'https://interactive.guim.co.uk/docsdata/' + d.key + '.json',
-            type: 'json',
-            crossOrigin: true,
-            success: function(resp) { 
-	                (debug) ? console.log(resp) : null;
-	                makeTable(resp.sheets,i,d);
-	                tally++
-	                console.log(tally);
-	                if (tally === tableData.length) {
-	                	var spy = new ScrollSpy('#mainSection', {
-		                    nav: '.pollNav a',
-		                    className: 'currentNav'
-
-		                  
-
-		                });
-	                
-	                	$(".tables").stacktable();
-	                }
-            	}
-        	})
-
-
-		}
-
-	})	
+	$(".tables").stacktable();
 
 	function makeTable(data,i,config) {
+
+		console.log(data);
 
 		var navList = d3.select("#otherQuestions");
 			
@@ -71,7 +44,7 @@ export default function makeTables(debug, configData) {
 		tableDiv
 			.append("div")
 			.attr("class","figureTitle")
-			.text(data.tableMeta[0].title)	
+			.text(config.articleTitle)	
 
 		var table = tableDiv
 						.append("table")
@@ -80,28 +53,23 @@ export default function makeTables(debug, configData) {
 		var tableHeadings = table.append("thead")
 								.append("tr")
 
-		data.tableDataSheet[0].forEach(function (d) {
+		Object.keys(data[0]).forEach(function (d) {
 			tableHeadings.append("th")
 				.attr("class","column-header")
 				.text(d);
 		});										
 
 		var tableBody = table.append("tbody")
-								
 
-		for (var i = 1; i < data.tableDataSheet.length; i++) {
-				
+		for (var i = 0; i < data.length; i++) {
 				var tableRow = table.append("tr")
-
-				data.tableDataSheet[i].forEach(function (d) {
+				Object.keys(data[0]).forEach(function (k) {
 					tableRow.append("td")
-						.text(d);
-				});	
+						.text(data[i][k]);
+				})
 
-				
-			};
+		};
 
 		
 	}
-
-}	
+}

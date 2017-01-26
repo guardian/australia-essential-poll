@@ -4,7 +4,7 @@ export default function makeArticles(debug, configData) {
 
 		var articleData = [];
 
-		configData.forEach(function (d) {
+		configData.config.forEach(function (d) {
 
 			if (d.contentType === 'article') {
 				articleData.push(d)

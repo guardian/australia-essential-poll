@@ -269,6 +269,7 @@ export default function makeTwopp(debug, chartData, mobile) {
 
 
 			var brush = d3.brushX()
+				.extent([[0, 0], [width, height2]])
 				.on("brush end", brushed);	
 
    			context.append("g")
