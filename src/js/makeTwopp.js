@@ -1,14 +1,22 @@
 import * as d3 from 'd3'
 
-export default function makeTwopp(debug, chartData, mobile) {
+export default function makeTwopp(debug, chartData, mobile, embedded) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 
+
 		var votingIntention = chartData.sheets.votingIntention;
 
-		// Shared vars and functions
+		var containerID = '#twoPartyPreferredContainer';
+		var notesID = '#twoPartyPreferredNotes';
 
-		var getW = document.querySelector("#twoPartyPreferredContainer").getBoundingClientRect().width;
+		// Shared vars and functions
+		if (embedded) {
+			containerID = "#chartContainer";
+			notesID = "#chartNotes";
+		}
+		
+		var getW = document.querySelector(containerID).getBoundingClientRect().width;
         var getH = getW*0.6;
         var miniPadding = 25;
         var margin = {top: 20, right: 20, bottom: (getH*0.25), left: 40},
@@ -48,7 +56,8 @@ export default function makeTwopp(debug, chartData, mobile) {
 	    var coalition2pp = votingIntention[votingIntention.length -1]['lnp2PP'];
 	    var labor2pp = votingIntention[votingIntention.length - 1]['alp2PP'];
 
-	    d3.select("#twoPartyPreferredNotes").html(`If an election were held today, the two-party preferred vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition2pp}%</span>, and <span class='laborKey'>Labor</span> would be <span class='laborHighlight'>${labor2pp}%</span>`);
+	    d3.select(".figureTitle").text('Two party preferred');
+	    d3.select(notesID).html(`If an election were held today, the two-party preferred vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition2pp}%</span>, and <span class='laborKey'>Labor</span> would be <span class='laborHighlight'>${labor2pp}%</span>`);
 	    
 	    // Two party preferred chart
 
@@ -92,7 +101,7 @@ export default function makeTwopp(debug, chartData, mobile) {
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.lnp2PP); });	
 
-			var svg = d3.select("#twoPartyPreferredContainer").append("svg")
+			var svg = d3.select(containerID).append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom);
 
@@ -134,8 +143,6 @@ export default function makeTwopp(debug, chartData, mobile) {
 				.attr("stroke", "#808080")
 				.attr("clip-path", "url(#clip)")
 				.attr("stroke-width", 1);   
-
-			
 
 			focus.append("path")
 				.datum(votingIntention)

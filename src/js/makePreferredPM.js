@@ -1,14 +1,21 @@
 import * as d3 from 'd3'
 
-export default function makePreferred(debug, chartData, mobile) {
+export default function makePreferred(debug, chartData, mobile, embedded) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 		var preferredPM = chartData.sheets.preferredPM;
 
 
-		// Shared vars and functions
+		var containerID = '#preferredContainer';
+		var notesID = '#preferredPMNotes';
 
-		var getW = document.querySelector("#preferredContainer").getBoundingClientRect().width;
+		// Shared vars and functions
+		if (embedded) {
+			containerID = "#chartContainer";
+			notesID = "#chartNotes";
+		}
+
+		var getW = document.querySelector(containerID).getBoundingClientRect().width;
         var getH = getW*0.6;
         var miniPadding = 25;
         var margin = {top: 20, right: 20, bottom: (getH*0.25), left: 40},
@@ -24,6 +31,11 @@ export default function makePreferred(debug, chartData, mobile) {
 	    var extentY = [];
 
 	    preferredPM.forEach(function (d,i) {
+
+	    	if (embedded) {
+	    		d.date = parseDate(d.date);
+	    	}
+
 	    	if (d.alpPreferred == "") {
 	    		d.alpPreferred = null;
 	    	}
@@ -65,7 +77,8 @@ export default function makePreferred(debug, chartData, mobile) {
 	    var laborPreferred = preferredPM[preferredPM.length - 1]['alpPreferred'];
 	    // var dkPreferred = preferredPM[preferredPM.length - 1]['dkPreferred'];
 
-	    d3.select("#preferredPMNotes").html(`<span class='coalitionHighlight'>${coalitionPreferred}%</span> of respondents think <span class='coalitionKey'>Malcolm Turnbull</span> would make the better Prime Minister and <span class='laborHighlight'>${laborPreferred}%</span> think <span class='laborKey'>Bill Shorten</span> would make the better Prime Minister`); //'
+	    d3.select(".figureTitle").text('Preferred Prime Minister');
+	    d3.select(notesID).html(`<span class='coalitionHighlight'>${coalitionPreferred}%</span> of respondents think <span class='coalitionKey'>Malcolm Turnbull</span> would make the better Prime Minister and <span class='laborHighlight'>${laborPreferred}%</span> think <span class='laborKey'>Bill Shorten</span> would make the better Prime Minister`); //'
 
 	    
 	    // Two party preferred chart
@@ -120,7 +133,7 @@ export default function makePreferred(debug, chartData, mobile) {
 			// 	.x(function(d) { return x(d.date); })
 			// 	.y(function(d) { return y(d.dkPreferred); });
 
-			var svg = d3.select("#preferredContainer").append("svg")
+			var svg = d3.select(containerID).append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom);
 

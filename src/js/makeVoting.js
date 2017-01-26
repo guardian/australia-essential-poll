@@ -1,15 +1,24 @@
 import * as d3 from 'd3'
 
-export default function makeVoting(debug, chartData, mobile) {
+export default function makeVoting(debug, chartData, mobile, embedded) {
 
 		// (debug) ? console.log("chartData",chartData) : null;
 
 		var votingIntention = chartData.sheets.votingIntention;
 
-		// Shared vars and functions
+		var containerID = '#primaryVotingContainer';
+		var notesID = '#primaryNotes';
 
-		var getW = document.querySelector("#primaryVotingContainer").getBoundingClientRect().width;
+		// Shared vars and functions
+		if (embedded) {
+			containerID = "#chartContainer";
+			notesID = "#chartNotes";
+		}
+
+		var getW = document.querySelector(containerID).getBoundingClientRect().width;
         var getH = getW*0.6;
+        console.log("getW",getW,"getH",getH);
+
         var miniPadding = 25;
         var margin = {top: 20, right: 20, bottom: (getH*0.25), left: 40},
 	        margin2 =  {top: (getH*0.75 + miniPadding), right: 10, bottom: 20, left: 40},
@@ -34,7 +43,7 @@ export default function makeVoting(debug, chartData, mobile) {
 	    		d['ON'] = null;
 	    	}
 	    	else {
-	    	d['ON'] = +d['ON'];
+	    		d['ON'] = +d['ON'];
 	    	}
 
 	    	extentY.push(+d['alp']);
@@ -42,9 +51,13 @@ export default function makeVoting(debug, chartData, mobile) {
 	    	extentY.push(+d['greens']);
 	    	extentY.push(+d['ON']);
 
+	    	if (embedded) {
+	    		d['date'] = parseDate(d['date']);
+	    	}
+
 	    });
 
-	    console.log("votingIntention",votingIntention);
+	    console.log("votingIntention",votingIntention,"extentY",extentY);
 
 	    votingIntention.sort(function (a, b) {
 			if (a.date > b.date) {
@@ -62,7 +75,8 @@ export default function makeVoting(debug, chartData, mobile) {
 	    var on = votingIntention[votingIntention.length - 1]['ON'];
 
 
-	    d3.select("#primaryNotes").html(`If an election were held today, the primary vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition}%</span>, <span class='laborKey'>Labor's</span> would be <span class='laborHighlight'>${labor}%</span>, the <span class='greensKey'>Greens's</span> would be <span class='greensHighlight'>${greens}%</span>, and <span class='onKey'>One Nation's</span> would be <span class='onHighlight'>${on}%</span></span>`);//'
+	    d3.select(".figureTitle").text('Primary voting intention');
+	    d3.select(notesID).html(`If an election were held today, the primary vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition}%</span>, <span class='laborKey'>Labor's</span> would be <span class='laborHighlight'>${labor}%</span>, the <span class='greensKey'>Greens's</span> would be <span class='greensHighlight'>${greens}%</span>, and <span class='onKey'>One Nation's</span> would be <span class='onHighlight'>${on}%</span></span>`);//'
 
 	    // Two party preferred chart
 
@@ -126,7 +140,7 @@ export default function makeVoting(debug, chartData, mobile) {
 				.x(function(d) { return x(d.date); })
 				.y(function(d) { return y(d.ON); });		
 
-			var svg = d3.select("#primaryVotingContainer").append("svg")
+			var svg = d3.select(containerID).append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom);
 
@@ -167,17 +181,7 @@ export default function makeVoting(debug, chartData, mobile) {
 				.style("stroke-dasharray", ("3, 3"))
 				.attr("stroke", "#808080")
 				.attr("clip-path", "url(#clip)")
-				.attr("stroke-width", 1);   
-
-			// focus.append("rect")
-			// 	.attr("class", "mouseOverlay")
-			// 	.attr("opacity", 0)
-			// 	.attr("width", width)
-			// 	.attr("height", height)
-			// 	.on("mouseover", function() { lineTip.style("display", null); })
-			// 	.on("mouseout", function() { lineTip.style("display", "none"); })
-			// 	.on("touchstart", function() { lineTip.style("display", null); })
-			// 	.on("mousemove", mousemove);
+				.attr("stroke-width", 1);  
 
 			focus.append("path")
 				.datum(votingIntention)

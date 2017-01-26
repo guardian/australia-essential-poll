@@ -1,5 +1,6 @@
 import reqwest from 'reqwest'
-import embedHTML from './text/main.html!text'
+import chartHTML from './text/chart.html!text'
+import tableHTML from './text/table.html!text'
 import share from './lib/share'
 import parseURL from './lib/parseURL'
 import fetchJSON from './lib/fetch'
@@ -12,6 +13,7 @@ import makeTables from './makeTables'
 import makeArticles from './makeArticles'
 import makeFurniture from './makeFurniture'
 import Sticky from 'sticky-js'
+import iframeMessenger from 'guardian/iframe-messenger'
 import * as d3 from 'd3'
 
 var debug = false;
@@ -19,9 +21,9 @@ var shareFn = share('Interactive title', 'http://gu.com/p/URL', '#Interactive');
 
 window.init = function init(el, config) {
 
-    el.innerHTML = embedHTML.replace(/%assetPath%/g, config.assetPath);    
-
+    iframeMessenger.enableAutoResize();
     var params = parseURL(el);
+
     if(params.key){
         //load data if key is found
         loadConfig(params);
@@ -37,13 +39,22 @@ window.init = function init(el, config) {
             crossOrigin: true,
             success: function(resp) { 
                 // (debug) ? console.log(resp) : null;
-                renderResults(resp)
+
+                if (params.embedType === "chart") {
+                    el.innerHTML = chartHTML.replace(/%assetPath%/g, config.assetPath);
+                }
+
+                else if (params.embedType === "table") {
+                    el.innerHTML = tableHTML.replace(/%assetPath%/g, config.assetPath);
+                }
+                
+                renderResults(resp,params.embedType,params.embedID);
             }
         })
     
     }
 
-    function renderResults(configData) {
+    function renderResults(configData,embedType,embedID) {
 
         var docWidth = window.innerWidth;
         var mobile = false;
@@ -52,38 +63,38 @@ window.init = function init(el, config) {
             mobile = true;
         } 
 
-        //Make the header
+        if (embedType === "chart") {
+                
+                reqwest({
+                    url: 'https://interactive.guim.co.uk/docsdata/1-hIlthccTseJ-ri_fVoFoqcWOQAg2H4PpJPXoebuSq0.json',
+                    type: 'json',
+                    crossOrigin: true,
+                    success: function(resp) { 
+                        
+                        if (embedID === "twoPP") {
+                            makeTwopp(debug,resp,mobile,true); 
+                        }
 
-        makeHeader(debug);
+                        else if (embedID === "votingIntention") {
+                            makeVoting(debug,resp, mobile,true);
+                        }
 
-        //Add various bits of
+                        else if (embedID === "preferredPM") {
+                            makePreferred(debug,resp, mobile,true);
+                        }
 
-        makeFurniture(debug,configData.sheets.furniture);
+                        else if (embedID === "approvalRating") {
+                            makeApproval(debug,resp, mobile,true);
+                        }
+                        
 
-        //Make the results charts - this spreadsheet reference is always the same
+                    }
+                })
+        }
 
-        reqwest({
-            url: 'https://interactive.guim.co.uk/docsdata/1-hIlthccTseJ-ri_fVoFoqcWOQAg2H4PpJPXoebuSq0.json',
-            type: 'json',
-            crossOrigin: true,
-            success: function(resp) { 
-                // (debug) ? console.log(resp) : null;
-                makeTwopp(debug,resp, mobile);
-                makeVoting(debug,resp, mobile);
-                makeApproval(debug,resp, mobile);
-                makePreferred(debug,resp, mobile);
-
-            }
-        })
-
-        // Make tables and news blocks
-        // console.log("configData", configData);
-        makeArticles(debug, configData.sheets.config);
-        makeTables(debug, configData.sheets.config);
-        //Sticky nav
-
-        var sticky = new Sticky('.sticky');
-       
+        else if (params.embedType === "table") {
+            makeTables(debug, configData.sheets.config,embedID,true);
+        }
 
     }
 };

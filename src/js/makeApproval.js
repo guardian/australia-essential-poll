@@ -1,12 +1,22 @@
 import * as d3 from 'd3'
 
-export default function makeApproval(debug, chartData, mobile) {
+export default function makeApproval(debug, chartData, mobile, embedded) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 		var preferredPM = chartData.sheets.preferredPM;
+
+		var containerID = '#approvalContainer';
+		var notesID = '#approvalNotes';
+
+		// Shared vars and functions
+		if (embedded) {
+			containerID = "#chartContainer";
+			notesID = "#chartNotes";
+		}
+
 		// Shared vars and functions
 
-		var getW = document.querySelector("#approvalContainer").getBoundingClientRect().width;
+		var getW = document.querySelector(containerID).getBoundingClientRect().width;
         var getH = getW*0.6;
         var miniPadding = 25;
         var margin = {top: 20, right: 20, bottom: (getH*0.25), left: 40},
@@ -62,7 +72,9 @@ export default function makeApproval(debug, chartData, mobile) {
 	    var laborApproval = preferredPM[preferredPM.length - 1]['alpFavourable'];
 	    var laborDisapproval = preferredPM[preferredPM.length - 1]['alpUnfavourable'];
 
-	    d3.select("#approvalNotes").html(`<span class='coalitionHighlight'>${coalitionApproval}%</span> of respondents approve of the job that <span class='coalitionKey'>Malcolm Turnbull</span> is doing as Prime Minister, and <span class='coalitionHighlight'>${coalitionDisapproval}%</span> disapprove. <span class='laborHighlight'>${laborApproval}%</span> of respondents approve of the job that <span class='laborKey'>Bill Shorten</span> is doing as Prime Minister, and <span class='laborHighlight'>${coalitionDisapproval}%</span> disapprove`);
+
+	    d3.select(".figureTitle").text('Approval rating of leaders');
+	    d3.select(notesID).html(`<span class='coalitionHighlight'>${coalitionApproval}%</span> of respondents approve of the job that <span class='coalitionKey'>Malcolm Turnbull</span> is doing as Prime Minister, and <span class='coalitionHighlight'>${coalitionDisapproval}%</span> disapprove. <span class='laborHighlight'>${laborApproval}%</span> of respondents approve of the job that <span class='laborKey'>Bill Shorten</span> is doing as Prime Minister, and <span class='laborHighlight'>${coalitionDisapproval}%</span> disapprove`);
 
 	    
 	    // Two party preferred chart
@@ -112,7 +124,7 @@ export default function makeApproval(debug, chartData, mobile) {
 				.y(function(d) { return y(d.lnpFavourable); });
 	
 
-			var svg = d3.select("#approvalContainer").append("svg")
+			var svg = d3.select(containerID).append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom);
 
