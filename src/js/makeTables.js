@@ -4,20 +4,31 @@ import jQuery from 'jquery'
 import stacktable from './stacktable'
 import * as d3 from 'd3'
 
-export default function makeTables(debug, configData) {
+export default function makeTables(debug, configData, embedID, embedded) {
 
 	console.log(configData);
 
-	configData.config.forEach(function (d,i) { 
-			if (d.contentType === 'table') {
-				makeTable(configData[d.key],i,d);
-			}
+	if (!embedded) { 
+		configData.config.forEach(function (d,i) { 
+				if (d.contentType === 'table') {
+					makeTable(configData[d.key],i,d);
+				}
 		});
 
-	var spy = new ScrollSpy('#mainSection', {
+		var spy = new ScrollSpy('#mainSection', {
         nav: '.pollNav a',
         className: 'currentNav'
-    });
+    	});
+	}
+
+	else if (embedded) {
+		configData.config.forEach(function (d,i) { 
+				if (d.key === embedID) {
+					makeTable(configData[d.key],i,d);
+				}
+		});
+
+	}
 
 	$(".tables").stacktable();
 
@@ -25,16 +36,18 @@ export default function makeTables(debug, configData) {
 
 		console.log(data);
 
-		var navList = d3.select("#otherQuestions");
+		if (!embedded) {
+			var navList = d3.select("#otherQuestions");
 			
-		navList
-			.append("li")
-			.append("a")	
-			.attr("href", "#" + "table" + i)
-			.text(config.chapterTitle);	
+			navList
+				.append("li")
+				.append("a")	
+				.attr("href", "#" + "table" + i)
+				.text(config.chapterTitle);	
+
+			}	
 
 		var tablesContainer = d3.select("#tablesContainer");
-
 
 		var tableDiv = tablesContainer.append("div")
 						.attr("class", "pollTable row borderBottom item")
@@ -69,6 +82,8 @@ export default function makeTables(debug, configData) {
 				})
 
 		};
+		
+
 
 		
 	}

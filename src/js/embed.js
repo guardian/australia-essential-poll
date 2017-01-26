@@ -93,7 +93,7 @@ window.init = function init(el, config) {
         }
 
         else if (params.embedType === "table") {
-            makeTables(debug, configData.sheets.config,embedID,true);
+            makeTables(debug, configData.sheets,embedID,true);
         }
 
     }
