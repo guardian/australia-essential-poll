@@ -4,16 +4,18 @@ export default function makeTwopp(debug, chartData, mobile, embedded) {
 
 		(debug) ? console.log("chartData",chartData) : null;
 
-
 		var votingIntention = chartData.sheets.votingIntention;
 
 		var containerID = '#twoPartyPreferredContainer';
 		var notesID = '#twoPartyPreferredNotes';
+		var wrapperID = "#twoPartyPreferred";
+
 
 		// Shared vars and functions
 		if (embedded) {
 			containerID = "#chartContainer";
 			notesID = "#chartNotes";
+			wrapperID = "#embeddedChart";
 		}
 		
 		var getW = document.querySelector(containerID).getBoundingClientRect().width;
@@ -56,8 +58,8 @@ export default function makeTwopp(debug, chartData, mobile, embedded) {
 	    var coalition2pp = votingIntention[votingIntention.length -1]['lnp2PP'];
 	    var labor2pp = votingIntention[votingIntention.length - 1]['alp2PP'];
 
-	    d3.select(".figureTitle").text('Two party preferred');
-	    d3.select(notesID).html(`If an election were held today, the two-party preferred vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition2pp}%</span>, and <span class='laborKey'>Labor</span> would be <span class='laborHighlight'>${labor2pp}%</span>`);
+	    d3.select(wrapperID + " .figureTitle").text('Two party preferred');
+	    d3.select(notesID).html(`If an election were held today, the two party preferred vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition2pp}%</span>, and <span class='laborKey'>Labor</span> would be <span class='laborHighlight'>${labor2pp}%</span>`);
 	    
 	    // Two party preferred chart
 

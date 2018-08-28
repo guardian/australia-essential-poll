@@ -8,11 +8,14 @@ export default function makePreferred(debug, chartData, mobile, embedded) {
 
 		var containerID = '#preferredContainer';
 		var notesID = '#preferredPMNotes';
+		var wrapperID = "#preferredPm";
+
 
 		// Shared vars and functions
 		if (embedded) {
 			containerID = "#chartContainer";
 			notesID = "#chartNotes";
+			wrapperID = "#embeddedChart";
 		}
 
 		var getW = document.querySelector(containerID).getBoundingClientRect().width;
@@ -77,8 +80,8 @@ export default function makePreferred(debug, chartData, mobile, embedded) {
 	    var laborPreferred = preferredPM[preferredPM.length - 1]['alpPreferred'];
 	    // var dkPreferred = preferredPM[preferredPM.length - 1]['dkPreferred'];
 
-	    d3.select(".figureTitle").text('Preferred Prime Minister');
-	    d3.select(notesID).html(`<span class='coalitionHighlight'>${coalitionPreferred}%</span> of respondents think <span class='coalitionKey'>Malcolm Turnbull</span> would make the better Prime Minister and <span class='laborHighlight'>${laborPreferred}%</span> think <span class='laborKey'>Bill Shorten</span> would make the better Prime Minister`); //'
+	    d3.select(wrapperID + " .figureTitle").text('Preferred prime minister');
+	    d3.select(notesID).html(`<span class='coalitionHighlight'>${coalitionPreferred}%</span> of respondents think <span class='coalitionKey'>Scott Morrison</span> would make the better prime minister and <span class='laborHighlight'>${laborPreferred}%</span> think <span class='laborKey'>Bill Shorten</span> would make the better prime minister`); //'
 
 	    
 	    // Two party preferred chart

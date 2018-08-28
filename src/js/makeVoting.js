@@ -8,11 +8,13 @@ export default function makeVoting(debug, chartData, mobile, embedded) {
 
 		var containerID = '#primaryVotingContainer';
 		var notesID = '#primaryNotes';
+		var wrapperID = "#primaryVoting";
 
 		// Shared vars and functions
 		if (embedded) {
 			containerID = "#chartContainer";
 			notesID = "#chartNotes";
+			wrapperID = "#embeddedChart";
 		}
 
 		var getW = document.querySelector(containerID).getBoundingClientRect().width;
@@ -75,8 +77,8 @@ export default function makeVoting(debug, chartData, mobile, embedded) {
 	    var on = votingIntention[votingIntention.length - 1]['ON'];
 
 
-	    d3.select(".figureTitle").text('Primary voting intention');
-	    d3.select(notesID).html(`If an election were held today, the primary vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition}%</span>, <span class='laborKey'>Labor's</span> would be <span class='laborHighlight'>${labor}%</span>, the <span class='greensKey'>Greens's</span> would be <span class='greensHighlight'>${greens}%</span>, and <span class='onKey'>One Nation's</span> would be <span class='onHighlight'>${on}%</span></span>`);//'
+	    d3.select(wrapperID + " .figureTitle").text('Primary voting intention');
+	    d3.select(notesID).html(`If an election were held today, the primary vote for the <span class='coalitionKey'>Coalition</span> would be <span class='coalitionHighlight'>${coalition}%</span>, <span class='laborKey'>Labor's</span> would be <span class='laborHighlight'>${labor}%</span>, the <span class='greensKey'>Greens'</span> would be <span class='greensHighlight'>${greens}%</span>, and <span class='onKey'>One Nation's</span> would be <span class='onHighlight'>${on}%</span></span>`);//'
 
 	    // Two party preferred chart
 

@@ -7,11 +7,13 @@ export default function makeApproval(debug, chartData, mobile, embedded) {
 
 		var containerID = '#approvalContainer';
 		var notesID = '#approvalNotes';
+		var wrapperID = "#approvalRating";
 
 		// Shared vars and functions
 		if (embedded) {
 			containerID = "#chartContainer";
 			notesID = "#chartNotes";
+			wrapperID = "#embeddedChart";
 		}
 
 		// Shared vars and functions
@@ -73,8 +75,8 @@ export default function makeApproval(debug, chartData, mobile, embedded) {
 	    var laborDisapproval = preferredPM[preferredPM.length - 1]['alpUnfavourable'];
 
 
-	    d3.select(".figureTitle").text('Approval rating of leaders');
-	    d3.select(notesID).html(`<span class='coalitionHighlight'>${coalitionApproval}%</span> of respondents approve of the job that <span class='coalitionKey'>Malcolm Turnbull</span> is doing as Prime Minister, and <span class='coalitionHighlight'>${coalitionDisapproval}%</span> disapprove. <span class='laborHighlight'>${laborApproval}%</span> of respondents approve of the job that <span class='laborKey'>Bill Shorten</span> is doing as Prime Minister, and <span class='laborHighlight'>${coalitionDisapproval}%</span> disapprove`);
+	    d3.select(wrapperID + " .figureTitle").text('Approval rating of leaders');
+	    d3.select(notesID).html(`<span class='coalitionHighlight'>${coalitionApproval}%</span> of respondents approve of the job that <span class='coalitionKey'>Malcolm Turnbull</span> is doing as prime minister, and <span class='coalitionHighlight'>${coalitionDisapproval}%</span> disapprove. <span class='laborHighlight'>${laborApproval}%</span> of respondents approve of the job that <span class='laborKey'>Bill Shorten</span> is doing as opposition leader, and <span class='laborHighlight'>${coalitionDisapproval}%</span> disapprove`);
 
 	    
 	    // Two party preferred chart
