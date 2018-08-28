@@ -69,14 +69,31 @@ export default function makeApproval(debug, chartData, mobile, embedded) {
 		});
 
 
-	    var coalitionApproval = preferredPM[preferredPM.length -1]['lnpFavourable'];
-	    var coalitionDisapproval = preferredPM[preferredPM.length -1]['lnpUnfavourable'];
-	    var laborApproval = preferredPM[preferredPM.length - 1]['alpFavourable'];
-	    var laborDisapproval = preferredPM[preferredPM.length - 1]['alpUnfavourable'];
+	    var leaderHTML = ''
+
+	    if (preferredPM[preferredPM.length -1]['lnpFavourable']===null) {
+
+		    var coalitionApproval = preferredPM[preferredPM.length -2]['lnpFavourable'];
+		    var coalitionDisapproval = preferredPM[preferredPM.length -2]['lnpUnfavourable'];
+		    var laborApproval = preferredPM[preferredPM.length - 2]['alpFavourable'];
+		    var laborDisapproval = preferredPM[preferredPM.length - 2]['alpUnfavourable'];
+
+		    leaderHTML = `Approval rating wasn't measured in this week's poll. The last time it was measured, <span class='coalitionHighlight'>${coalitionApproval}%</span> of respondents approved of the job that <span class='coalitionKey'>Malcolm Turnbull</span> was doing as prime minister, and <span class='coalitionHighlight'>${coalitionDisapproval}%</span> disapproved. <span class='laborHighlight'>${laborApproval}%</span> of respondents approved of the job that <span class='laborKey'>Bill Shorten</span> was doing as opposition leader, and <span class='laborHighlight'>${coalitionDisapproval}%</span> disapproved`
+
+	    } else {
+
+		    var coalitionApproval = preferredPM[preferredPM.length -1]['lnpFavourable'];
+		    var coalitionDisapproval = preferredPM[preferredPM.length -1]['lnpUnfavourable'];
+		    var laborApproval = preferredPM[preferredPM.length - 1]['alpFavourable'];
+		    var laborDisapproval = preferredPM[preferredPM.length - 1]['alpUnfavourable'];
+
+		    leaderHTML = `<span class='coalitionHighlight'>${coalitionApproval}%</span> of respondents approve of the job that <span class='coalitionKey'>Scott Morrison</span> is doing as prime minister, and <span class='coalitionHighlight'>${coalitionDisapproval}%</span> disapprove. <span class='laborHighlight'>${laborApproval}%</span> of respondents approve of the job that <span class='laborKey'>Bill Shorten</span> is doing as opposition leader, and <span class='laborHighlight'>${coalitionDisapproval}%</span> disapprove`
+
+	    }
 
 
 	    d3.select(wrapperID + " .figureTitle").text('Approval rating of leaders');
-	    d3.select(notesID).html(`<span class='coalitionHighlight'>${coalitionApproval}%</span> of respondents approve of the job that <span class='coalitionKey'>Malcolm Turnbull</span> is doing as prime minister, and <span class='coalitionHighlight'>${coalitionDisapproval}%</span> disapprove. <span class='laborHighlight'>${laborApproval}%</span> of respondents approve of the job that <span class='laborKey'>Bill Shorten</span> is doing as opposition leader, and <span class='laborHighlight'>${coalitionDisapproval}%</span> disapprove`);
+	    d3.select(notesID).html(leaderHTML);
 
 	    
 	    // Two party preferred chart
